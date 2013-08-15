@@ -1,4 +1,14 @@
 <?php
+/**
+ * WordPress User Page
+ *
+ * Handles authentication, registering, resetting passwords, forgot password,
+ * and other user handling.
+ *
+ * @package WordPress
+ */
+
+global $error, $interim_login, $current_site, $action;
 
 // Redirect to https login if forced to use SSL
 if ( force_ssl_admin() && ! is_ssl() ) {
@@ -738,7 +748,7 @@ d.select();
 }, 200);
 }
 
-<?php $error = ''; if ( !$error ) { ?>
+<?php if ( !$error ) { ?>
 wp_attempt_focus();
 <?php } ?>
 if(typeof wpOnload=='function')wpOnload();
