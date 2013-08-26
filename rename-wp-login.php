@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Rename wp-login
+Plugin Name: Rename wp-login.php
 Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 1.1
+Version: 1.2
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -58,6 +58,7 @@ add_action('wp', 'rwl_wp');
 function rwl_wp() {
 	global $wp_query, $post, $wp;
   	if ($wp_query->is_404 && $wp->request == get_option('rwl_page')) {
+  		status_header(200);
 		$post = new stdClass();
 		$post->ID = 0;
 		$wp_query->queried_object = $post;

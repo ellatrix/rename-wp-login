@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== Rename wp-login.php ===
 Contributors: avryl
 Tags: rename, login, wp-login, wp-login.php, brute force, attacks
 Requires at least: 3.6
@@ -14,7 +14,7 @@ Change wp-login.php to whatever you want. It can also prevent a lot of brute for
 = What it does =
 
 This plugin renames wp-login.php to whatever you want. The default is example.com/**login**/ if no such page already exists. Otherwise it will append a number, e.g. login-1.
-You can change this under ‘Settings’ › ‘Permalinks’ › ‘Login’.
+You can change this under Settings › Permalinks › Login.
 Please remember what you changed your login page to, accessing wp-login.php or wp-admin/ will not work and will return a 404 not found status.
 
 = Compatibility =
@@ -50,6 +50,10 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 == Changelog ==
 
+= 1.2 =
+
+* Fixed status code custom login page.
+
 = 1.1 =
 
 * Blocked access to wp-admin/ to prevent a redirect the the new login page.
@@ -60,6 +64,6 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 == Upgrade Notice ==
 
-= 1.1 =
+= 1.2 =
 
 * Always immediately update this plugin please!
