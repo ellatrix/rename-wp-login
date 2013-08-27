@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 1.2
+Version: 1.3
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -23,6 +23,57 @@ function rwl_activation() {
 	add_option('rwl_admin', '0');
 	add_option('rwl_page', wp_unique_post_slug('login', 0, 'publish', 'page', 0));
 }
+
+add_action('admin_init', 'rwl_admin_init');
+function rwl_admin_init() {
+	add_settings_section('rename-wp-login-section', 'Login', '__return_false', 'permalink');
+	add_settings_field('rwl-page', '<label for="rwl-page-input">Rename wp-login.php</label>', 'rwl_page', 'permalink', 'rename-wp-login-section');
+	add_settings_field('rwl-admin', '<label for="rwl-admin-input">Redirect wp-admin/ to new login page (not recommended)</label>', 'rwl_admin', 'permalink', 'rename-wp-login-section');
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if (!empty($_POST['rwl_page'])) {
+			update_option('rwl_page', wp_unique_post_slug(sanitize_title_with_dashes($_POST['rwl_page']), 0, 'publish', 'page', 0));
+		}
+		update_option('rwl_admin', isset($_POST['rwl_admin']) ? $_POST['rwl_admin'] : '0');
+	}
+	if (get_option('rwl_redirect') == '1') {
+		delete_option('rwl_redirect');
+		wp_redirect(admin_url('options-permalink.php#rwl-page-input'));
+	}
+}
+
+function rwl_page() {
+	echo '<code>' . site_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . get_option('rwl_page') . '" /> <code>/</code>';
+}
+
+function rwl_admin() {
+	echo '<input id="rwl-admin-input" type="checkbox" name="rwl_admin" value="1" ' . checked(get_option('rwl_admin'), true, false) . ' />';
+}
+
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'rwl_plugin_action_links');
+function rwl_plugin_action_links($links) {
+	array_unshift($links, '<a href="options-permalink.php#rwl-page-input">Settings</a>');
+	return $links;
+}
+
+add_action('admin_notices', 'rwl_admin_notices');
+function rwl_admin_notices() {
+	if (!get_option('permalink_structure')) {
+		?>
+		<div class="error">
+		    <p><strong>Rename wp-login.php</strong> doesn't work if you’re using the default permalink structure.<br>You must choose another permalink structure for it to work.</p>
+		</div>
+		<?php
+	} elseif ($_GET['settings-updated'] == true) {
+		?>
+		<div class="updated">
+		    <p>Your login page is now here: <a href="<?php echo site_url(); ?>/<?php echo get_option('rwl_page'); ?>/"><?php echo site_url(); ?>/<strong><?php echo get_option('rwl_page'); ?></strong>/</a>. Bookmark this page!</p>
+		</div>
+		<?php
+	}
+}
+
+if (!get_option('permalink_structure'))
+	return;
 
 add_action('wp_loaded', 'rwl_wp_loaded');
 function rwl_wp_loaded() {
@@ -73,37 +124,6 @@ function rwl_wp() {
 		require_once(dirname(__FILE__) . '/wp-login.php');
 		exit;
 	}
-}
-
-add_action('admin_init', 'rwl_admin_init');
-function rwl_admin_init() {
-	add_settings_section('rename-wp-login-section', 'Login', '__return_false', 'permalink');
-	add_settings_field('rwl-page', '<label for="rwl-page-input">Rename wp-login.php</label>', 'rwl_page', 'permalink', 'rename-wp-login-section');
-	add_settings_field('rwl-admin', '<label for="rwl-admin-input">Redirect wp-admin/ to new login page (not recommended)</label>', 'rwl_admin', 'permalink', 'rename-wp-login-section');
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		if (!empty($_POST['rwl_page'])) {
-			update_option('rwl_page', wp_unique_post_slug($_POST['rwl_page'], 0, 'publish', 'page', 0));
-		}
-		update_option('rwl_admin', isset($_POST['rwl_admin']) ? $_POST['rwl_admin'] : '0');
-	}
-	if (get_option('rwl_redirect') == '1') {
-		delete_option('rwl_redirect');
-		wp_redirect(admin_url('options-permalink.php#rwl-page-input'));
-	}
-}
-
-function rwl_page() {
-	echo '<code>' . site_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . get_option('rwl_page') . '" /> <code>/</code>';
-}
-
-function rwl_admin() {
-	echo '<input id="rwl-admin-input" type="checkbox" name="rwl_admin" value="1" ' . checked(get_option('rwl_admin'), true, false) . ' />';
-}
-
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'rwl_plugin_action_links');
-function rwl_plugin_action_links($links) {
-	array_unshift($links, '<a href="options-permalink.php#rwl-page-input">Settings</a>');
-	return $links;
 }
 
 add_filter('site_url', 'rwl_filter_site_url', 10, 4);

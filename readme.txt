@@ -50,6 +50,10 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 == Changelog ==
 
+= 1.3 =
+
+* Prevents the plugin from working when there is no permalink structure.
+
 = 1.2 =
 
 * Fixed status code custom login page.
@@ -64,6 +68,6 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 == Upgrade Notice ==
 
-= 1.2 =
+= 1.3 =
 
-* Always immediately update this plugin please!
+Always immediately update this plugin please!
