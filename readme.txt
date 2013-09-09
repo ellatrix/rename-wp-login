@@ -4,7 +4,7 @@ Contributors: avryl
 Tags: rename, login, wp-login, wp-login.php, brute force, attacks
 Requires at least: 3.6
 Tested up to: 3.6
-Stable tag: trunk
+Stable tag: 1.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
