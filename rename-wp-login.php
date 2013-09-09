@@ -99,7 +99,7 @@ function rwl_plugin_action_links( $links ) {
 if ( ! get_option('permalink_structure') )
 	return;
 
-add_action( 'init', 'rwl_init' );
+add_action( 'init', 'rwl_init', 11 );
 add_action( 'login_init', 'rwl_login_init' );
 
 add_filter( 'site_url', 'rwl_filter_site_url', 10, 4 );
