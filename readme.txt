@@ -53,10 +53,7 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 = I forgot my login url!  =
 
-There are two ways to solve your problem:
-
-1. go to your MySQL database and look for the value of `rwl_page` in the options table, or
-2. remove the `rename-wp-login` folder from your `plugins` folder, log in through the standard wp-login.php and reinstall the plugin.
+Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 == Changelog ==
 
