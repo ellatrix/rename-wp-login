@@ -57,6 +57,10 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 
 == Changelog ==
 
+= 1.5 =
+
+* Made [User Switching](http://wordpress.org/plugins/user-switching/) compatible.
+
 = 1.4 =
 
 * Faster page load.
@@ -81,6 +85,6 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 
 == Upgrade Notice ==
 
-= 1.4 =
+= 1.5 =
 
 Always immediately update this plugin please!
