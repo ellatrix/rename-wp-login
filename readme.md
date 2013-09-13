@@ -1,12 +1,12 @@
 # Rename wp-login.php
 
-Contributors: avryl
-Tags: rename, login, wp-login, wp-login.php, brute force, attacks
-Requires at least: 3.6
-Tested up to: 3.6.1
-Stable tag: 1.5
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** avryl  
+**Tags:** rename, login, wp-login, wp-login.php, brute force, attacks  
+**Requires at least:** 3.6  
+**Tested up to:** 3.6.1  
+**Stable tag:** 1.5  
+**License:** GPLv2 or later  
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 
