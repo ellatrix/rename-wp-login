@@ -3,7 +3,7 @@
 Contributors: avryl
 Tags: rename, login, wp-login, wp-login.php, brute force, attacks
 Requires at least: 3.6
-Tested up to: 3.6
+Tested up to: 3.6.1
 Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -12,19 +12,22 @@ Change wp-login.php to whatever you want. It can also prevent a lot of brute for
 
 ## Description
 
-### What it does
-
-This plugin renames wp-login.php to whatever you want. The default is example.com/**login**/ if no such page already exists. Otherwise it will append a number, e.g. login-1.
-You can change this under Settings › Permalinks › Login.
-Please remember what you changed your login page to, accessing wp-login.php or wp-admin will not work and will return a 404 not found status.
+With this plugin you can change wp-login.php to anything you want. The default is example.com/**login**/, and you can change this under Settings › Permalinks › Login.
+Please bookmark or remember your login url, accessing wp-login.php or wp-admin will return a 404 not found status.
 
 ### Compatibility
 
-Works with **BuddyPress**, **Limit Login Attempts** and most other plugins that customise the login page.
-This plugin **doesn’t** break the registration form, lost password form, expired sessions or any of wp-login.php’s functionality. Plugins that hook into the standard login form will keep working.
-It doesn’t break `wp_login_form()`, so the login widget will work too.
+Works perfectly on WordPress 3.6 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
 
-While it might work with earlier versions of WordPress, you should always update WordPress to the latest version.
+Compatible with plugins like:
+
+* BuddyPress,
+* Limit Login Attempts,
+* User Switching,
+* and any other plugin that hooks into the standard login form.
+
+It does’t work with plugins that hardcoded wp-login.php, obviously.
+You also must have pretty, or almost pretty, permalinks enabled.
 
 If you’re using a **page caching plugin** like **W3 Total Cache** or **WP Super Cache**, add the word you renamed wp-login.php to (e.g. login) to the list of pages not to cache.
 
@@ -35,11 +38,11 @@ This plugin is **not** yet tested on installs that force **SSL** or use the **mu
 
 ### Benefits
 
-Not only does it allow you to further customise your login page, it also prevents brute force attacks that are targeted specifically to wp-login.php. wp-login.php will return a 404 not found status code, and wp-admin as well if you’re not logged in, as it would otherwise reveal the location of your new login page.
-
-I made this plugin primarily because a client’s host blocked wp-login.php with an annoying Captcha. On some bigger websites Limit Login Atttempts also showed us that a lot of bots were trying to gain access through wp-login.php.
+Not only does it allow you to further customise your login page, it also prevents brute force attacks that are targeted specifically to wp-login.php. wp-login.php, and wp-admin if not logged in, will return a 404 not found status.
 
 While you could use this plugin to prevent a lot of brute force attacks, it does not mean you don’t need a strong password. Read [this codex article](http://codex.wordpress.org/Brute_Force_Attacks) for more information on how to protect your website.
+
+If you want to keep your login url secret, you should make sure there aren’t any links pointing to it on your website.
 
 ### Installation
 
@@ -56,6 +59,10 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 ### Changelog
+
+#### 1.6
+
+* Fixed the login link when `site_url()` ≠ `home_url()`
 
 #### 1.5
 
@@ -85,6 +92,6 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 
 ### Upgrade Notice
 
-#### 1.5
+#### 1.6
 
 Always immediately update this plugin please!
