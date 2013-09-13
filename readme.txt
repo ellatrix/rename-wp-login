@@ -44,6 +44,10 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 If you want to keep your login url secret, you should make sure there aren’t any links pointing to it on your website.
 
+= GitHub =
+
+This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
+
 == Installation ==
 
 1. Go to Plugins › Add New.
