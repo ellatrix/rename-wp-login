@@ -12,7 +12,7 @@ Change wp-login.php to whatever you want. It can also prevent a lot of brute for
 
 ## Description
 
-With this plugin you can change wp-login.php to anything you want. The default is example.com/**login**/, and you can change this under Settings › Permalinks › Login.
+With this plugin you can change wp-login.php to anything you want. The default is example.com/login/, and you can change this under Settings › Permalinks › Login.
 Please bookmark or remember your login url, accessing wp-login.php or wp-admin will return a 404 not found status.
 
 ### Compatibility
