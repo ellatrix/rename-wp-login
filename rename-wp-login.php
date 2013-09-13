@@ -66,7 +66,7 @@ function rwl_admin_init() {
 
 function rwl_page() {
 	
-	echo '<code>' . site_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . get_option( 'rwl_page' ) . '" /> <code>/</code>';
+	echo '<code>' . home_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . get_option( 'rwl_page' ) . '" /> <code>/</code>';
 	
 }
 
@@ -84,7 +84,7 @@ function rwl_admin_notices() {
 		
 	} elseif ( $_GET['settings-updated'] == true ) {
 				
-		echo '<div class="updated"><p>Your login page is now here: <a href="' . site_url() . '/' . get_option( 'rwl_page' ) . '/">' . site_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
+		echo '<div class="updated"><p>Your login page is now here: <a href="' . home_url() . '/' . get_option( 'rwl_page' ) . '/">' . home_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
 		
 	}
 	
@@ -218,7 +218,7 @@ function rwl_filter_lostpassword_url( $lostpassword_url, $redirect = '' ) {
 
 function rwl_login_url() {
 	
-	return site_url() . '/' . get_option( 'rwl_page' ) . '/';
+	return home_url() . '/' . get_option( 'rwl_page' ) . '/';
 	
 }
 
