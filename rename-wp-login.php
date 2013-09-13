@@ -51,6 +51,7 @@ function rwl_admin_init() {
 		}
 		
 		update_option( 'rwl_admin', isset( $_POST['rwl_admin'] ) ? $_POST['rwl_admin'] : '0' );
+		
 	}
 	
 	if ( get_option( 'rwl_redirect' ) == '1' ) {
@@ -86,6 +87,7 @@ function rwl_admin_notices() {
 		echo '<div class="updated"><p>Your login page is now here: <a href="' . site_url() . '/' . get_option( 'rwl_page' ) . '/">' . site_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
 		
 	}
+	
 }
 
 function rwl_plugin_action_links( $links ) {
@@ -149,6 +151,7 @@ function rwl_init() {
 			exit;
 			
 		}
+		
 	}
 	
 }
@@ -191,6 +194,7 @@ function rwl_filter_logout_url( $login_url, $redirect = '' ) {
 	$logout_url = wp_nonce_url( $logout_url, 'log-out' );
 	
 	return $logout_url;
+	
 }
 
 function rwl_filter_register_url( $register_url ) {
@@ -209,6 +213,7 @@ function rwl_filter_lostpassword_url( $lostpassword_url, $redirect = '' ) {
 	$lostpassword_url = add_query_arg( $args, rwl_login_url() );
 	
 	return $lostpassword_url;
+	
 }
 
 function rwl_login_url() {
@@ -221,7 +226,7 @@ function rwl_404() {
 	
 	global $wp_query;
 	
-	status_header(404);
+	status_header( 404 );
 	
 	$wp_query->set_404();
 	
