@@ -248,7 +248,7 @@ function retrieve_password() {
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
 	$message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
-	$message .= '<' . site_url() . '/' . get_option('rwl_page') . '/' . "?action=rp&key=$key&login=" . rawurlencode($user_login) . ">\r\n";
+	$message .= '<' . home_url() . '/' . get_option('rwl_page') . '/' . "?action=rp&key=$key&login=" . rawurlencode($user_login) . ">\r\n";
 
 	if ( is_multisite() )
 		$blogname = $GLOBALS['current_site']->site_name;
@@ -421,7 +421,7 @@ case 'logout' :
 	check_admin_referer('log-out');
 	wp_logout();
 
-	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : site_url() . '/' . get_option('rwl_page') . '/' . '?loggedout=true';
+	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url() . '/' . get_option('rwl_page') . '/' . '?loggedout=true';
 	wp_safe_redirect( $redirect_to );
 	exit();
 
@@ -433,7 +433,7 @@ case 'retrievepassword' :
 	if ( $http_post ) {
 		$errors = retrieve_password();
 		if ( !is_wp_error($errors) ) {
-			$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : site_url() . '/' . get_option('rwl_page') . '/' . '?checkemail=confirm';
+			$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url() . '/' . get_option('rwl_page') . '/' . '?checkemail=confirm';
 			wp_safe_redirect( $redirect_to );
 			exit();
 		}
@@ -449,7 +449,7 @@ case 'retrievepassword' :
 
 ?>
 
-<form name="lostpasswordform" id="lostpasswordform" action="<?php echo site_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword'; ?>" method="post">
+<form name="lostpasswordform" id="lostpasswordform" action="<?php echo home_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword'; ?>" method="post">
 	<p>
 		<label for="user_login" ><?php _e('Username or E-mail:') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
@@ -475,7 +475,7 @@ case 'rp' :
 	$user = check_password_reset_key($_GET['key'], $_GET['login']);
 
 	if ( is_wp_error($user) ) {
-		wp_redirect( site_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword&error=invalidkey' );
+		wp_redirect( home_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword&error=invalidkey' );
 		exit;
 	}
 
@@ -499,7 +499,7 @@ case 'rp' :
 	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
 
 ?>
-<form name="resetpassform" id="resetpassform" action="<?php echo site_url() . '/' . get_option('rwl_page') . '/' . '?action=resetpass&key=' . urlencode( $_GET['key'] ) . '&login=' . urlencode( $_GET['login'] ); ?>" method="post" autocomplete="off">
+<form name="resetpassform" id="resetpassform" action="<?php echo home_url() . '/' . get_option('rwl_page') . '/' . '?action=resetpass&key=' . urlencode( $_GET['key'] ) . '&login=' . urlencode( $_GET['login'] ); ?>" method="post" autocomplete="off">
 	<input type="hidden" id="user_login" value="<?php echo esc_attr( $_GET['login'] ); ?>" autocomplete="off" />
 
 	<p>
@@ -537,7 +537,7 @@ case 'register' :
 	}
 
 	if ( !get_option('users_can_register') ) {
-		wp_redirect( site_url() . '/' . get_option('rwl_page') . '/' . '?registration=disabled' );
+		wp_redirect( home_url() . '/' . get_option('rwl_page') . '/' . '?registration=disabled' );
 		exit();
 	}
 
@@ -548,7 +548,7 @@ case 'register' :
 		$user_email = $_POST['user_email'];
 		$errors = register_new_user($user_login, $user_email);
 		if ( !is_wp_error($errors) ) {
-			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : site_url() . '/' . get_option('rwl_page') . '/' . '?checkemail=registered';
+			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : home_url() . '/' . get_option('rwl_page') . '/' . '?checkemail=registered';
 			wp_safe_redirect( $redirect_to );
 			exit();
 		}
@@ -558,7 +558,7 @@ case 'register' :
 	login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site') . '</p>', $errors);
 ?>
 
-<form name="registerform" id="registerform" action="<?php echo site_url() . '/' . get_option('rwl_page') . '/' . '?action=register'; ?>" method="post">
+<form name="registerform" id="registerform" action="<?php echo home_url() . '/' . get_option('rwl_page') . '/' . '?action=register'; ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr(wp_unslash($user_login)); ?>" size="20" /></label>
@@ -692,7 +692,7 @@ default:
 	$rememberme = ! empty( $_POST['rememberme'] );
 ?>
 
-<form name="loginform" id="loginform" action="<?php echo site_url() . '/' . get_option('rwl_page') . '/'; ?>" method="post">
+<form name="loginform" id="loginform" action="<?php echo home_url() . '/' . get_option('rwl_page') . '/'; ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
