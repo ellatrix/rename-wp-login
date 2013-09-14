@@ -1,7 +1,7 @@
 # Rename wp-login.php
 
 **Contributors:** avryl  
-**Tags:** rename, login, wp-login, wp-login.php, brute force, attacks  
+**Tags:** custom login url, rename, login, wp-login, wp-login.php, brute force, brute force attack  
 **Requires at least:** 3.6  
 **Tested up to:** 3.6.1  
 **Stable tag:** 1.6  
