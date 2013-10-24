@@ -82,7 +82,7 @@ function rwl_admin_notices() {
 		
 		echo '<div class="error"><p><strong>Rename wp-login.php</strong> doesn’t work if you’re using the default permalink structure.<br>You must <a href="' . admin_url( 'options-permalink.php' ) . '">choose</a> another permalink structure for it to work.</p></div>';
 		
-	} elseif ( $_GET['settings-updated'] == true ) {
+	} elseif ( $_GET['settings-updated'] == true && get_current_screen()->id == 'options-permalink') {
 				
 		echo '<div class="updated"><p>Your login page is now here: <a href="' . home_url() . '/' . get_option( 'rwl_page' ) . '/">' . home_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
 		
