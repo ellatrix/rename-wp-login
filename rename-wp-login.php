@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 1.5
+Version: 1.7
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,7 @@ function rwl_admin_init() {
 		}
 		
 		update_option( 'rwl_admin', isset( $_POST['rwl_admin'] ) ? $_POST['rwl_admin'] : '0' );
+		
 	}
 	
 	if ( get_option( 'rwl_redirect' ) == '1' ) {
@@ -65,7 +66,7 @@ function rwl_admin_init() {
 
 function rwl_page() {
 	
-	echo '<code>' . site_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . get_option( 'rwl_page' ) . '" /> <code>/</code>';
+	echo '<code>' . home_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . get_option( 'rwl_page' ) . '" /> <code>/</code>';
 	
 }
 
@@ -77,15 +78,18 @@ function rwl_admin() {
 
 function rwl_admin_notices() {
 	
+	global $pagenow;
+	
 	if ( ! get_option( 'permalink_structure' ) ) {
 		
 		echo '<div class="error"><p><strong>Rename wp-login.php</strong> doesn’t work if you’re using the default permalink structure.<br>You must <a href="' . admin_url( 'options-permalink.php' ) . '">choose</a> another permalink structure for it to work.</p></div>';
 		
-	} elseif ( $_GET['settings-updated'] == true ) {
+	} elseif ( isset( $_GET['settings-updated'] ) && $pagenow == 'options-permalink.php' ) {
 				
-		echo '<div class="updated"><p>Your login page is now here: <a href="' . site_url() . '/' . get_option( 'rwl_page' ) . '/">' . site_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
+		echo '<div class="updated"><p>Your login page is now here: <a href="' . home_url() . '/' . get_option( 'rwl_page' ) . '/">' . home_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
 		
 	}
+	
 }
 
 function rwl_plugin_action_links( $links ) {
@@ -144,11 +148,12 @@ function rwl_init() {
 			
 			status_header( 200 );
 			
-			require_once( dirname( __FILE__ ) . '/wp-login.php' );
+			require_once( dirname( __FILE__ ) . '/rwl-login.php' );
 			
 			exit;
 			
 		}
+		
 	}
 	
 }
@@ -191,6 +196,7 @@ function rwl_filter_logout_url( $login_url, $redirect = '' ) {
 	$logout_url = wp_nonce_url( $logout_url, 'log-out' );
 	
 	return $logout_url;
+	
 }
 
 function rwl_filter_register_url( $register_url ) {
@@ -209,11 +215,12 @@ function rwl_filter_lostpassword_url( $lostpassword_url, $redirect = '' ) {
 	$lostpassword_url = add_query_arg( $args, rwl_login_url() );
 	
 	return $lostpassword_url;
+	
 }
 
 function rwl_login_url() {
 	
-	return site_url() . '/' . get_option( 'rwl_page' ) . '/';
+	return home_url() . '/' . get_option( 'rwl_page' ) . '/';
 	
 }
 
@@ -221,7 +228,7 @@ function rwl_404() {
 	
 	global $wp_query;
 	
-	status_header(404);
+	status_header( 404 );
 	
 	$wp_query->set_404();
 	

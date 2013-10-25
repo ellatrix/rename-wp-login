@@ -1,21 +1,21 @@
-=== Rename wp-login.php ===
+# Rename wp-login.php
 
-Contributors: avryl
-Tags: rename, login, wp-login, wp-login.php, brute force, attacks
-Requires at least: 3.6
-Tested up to: 3.7
-Stable tag: 1.7
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** avryl  
+**Tags:** rename, login, wp-login, wp-login.php, brute force, attacks  
+**Requires at least:** 3.6  
+**Tested up to:** 3.7  
+**Stable tag:** 1.7  
+**License:** GPLv2 or later  
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
 Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 
-== Description ==
+## Description
 
 With this plugin you can change wp-login.php to anything you want. The default is example.com/login/, and you can change this under Settings › Permalinks › Login.
 Please bookmark or remember your login url, accessing wp-login.php or wp-admin will return a 404 not found status.
 
-= Compatibility =
+### Compatibility
 
 Works perfectly on WordPress 3.6 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
 
@@ -36,7 +36,7 @@ If you’re using a **page caching plugin** like **W3 Total Cache** or **WP Supe
 
 This plugin is **not** yet tested on installs that force **SSL** or use the **multisite** feature. I would appreciate any help with testing this.
 
-= Benefits =
+### Benefits
 
 Not only does it allow you to further customise your login page, it also prevents brute force attacks that are targeted specifically to wp-login.php. wp-login.php, and wp-admin if not logged in, will return a 404 not found status.
 
@@ -44,11 +44,11 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 If you want to keep your login url secret, you should make sure there aren’t any links pointing to it on your website.
 
-= GitHub =
+### GitHub
 
 This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 
-== Installation ==
+## Installation
 
 1. Go to Plugins › Add New.
 2. Search for *Rename wp-login.php*.
@@ -56,51 +56,51 @@ This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 4. The page will redirect you to the settings. Rename wp-login.php in the section Login.
 5. You can change this option any time you want, just go back to Settings › Permalinks › Login.
 
-== Frequently Asked Questions ==
+## Frequently Asked Questions
 
-= I forgot my login url!  =
+### I forgot my login url!
 
 Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
-== Changelog ==
+## Changelog
 
-= 1.7 =
+### 1.6
 
 * Made compatible with WordPress 3.7.
 
-= 1.6 =
+### 1.6
 
 * Fixed the login link when `site_url()` ≠ `home_url()`.
 * Added a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 
-= 1.5 =
+### 1.5
 
 * Made [User Switching](http://wordpress.org/plugins/user-switching/) compatible.
 
-= 1.4 =
+### 1.4
 
 * Faster page load.
 * Fixed 404 error for permalink structures with a prefixed path. “Almost pretty” permalinks work now too.
 * Code clean-up.
 
-= 1.3 =
+### 1.3
 
 * Prevents the plugin from working when there is no permalink structure.
 
-= 1.2 =
+### 1.2
 
 * Fixed status code custom login page.
 
-= 1.1 =
+### 1.1
 
 * Blocked access to wp-admin to prevent a redirect the the new login page.
 
-= 1.0 =
+### 1.0
 
 * Initial version.
 
-== Upgrade Notice ==
+## Upgrade Notice
 
-= 1.7 =
+### 1.7
 
 Always immediately update this plugin please!
