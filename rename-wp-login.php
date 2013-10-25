@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 1.6
+Version: 1.7
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -78,11 +78,13 @@ function rwl_admin() {
 
 function rwl_admin_notices() {
 	
+	global $pagenow;
+	
 	if ( ! get_option( 'permalink_structure' ) ) {
 		
 		echo '<div class="error"><p><strong>Rename wp-login.php</strong> doesn’t work if you’re using the default permalink structure.<br>You must <a href="' . admin_url( 'options-permalink.php' ) . '">choose</a> another permalink structure for it to work.</p></div>';
 		
-	} elseif ( $_GET['settings-updated'] == true ) {
+	} elseif ( isset( $_GET['settings-updated'] ) && $pagenow == 'options-permalink.php' ) {
 				
 		echo '<div class="updated"><p>Your login page is now here: <a href="' . home_url() . '/' . get_option( 'rwl_page' ) . '/">' . home_url() . '/<strong>' . get_option( 'rwl_page' ) . '</strong>/</a>. Bookmark this page!</p></div>';
 		
@@ -146,7 +148,7 @@ function rwl_init() {
 			
 			status_header( 200 );
 			
-			require_once( dirname( __FILE__ ) . '/wp-login.php' );
+			require_once( dirname( __FILE__ ) . '/rwl-login.php' );
 			
 			exit;
 			

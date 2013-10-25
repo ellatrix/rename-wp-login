@@ -1,10 +1,10 @@
 # Rename wp-login.php
 
 **Contributors:** avryl  
-**Tags:** custom login url, rename, login, wp-login, wp-login.php, brute force, brute force attack  
+**Tags:** rename, login, wp-login, wp-login.php, brute force, attacks  
 **Requires at least:** 3.6  
-**Tested up to:** 3.6.1  
-**Stable tag:** 1.6  
+**Tested up to:** 3.7  
+**Stable tag:** 1.7  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 
 ### 1.6
 
+* Made compatible with WordPress 3.7.
+
+### 1.6
+
 * Fixed the login link when `site_url()` ≠ `home_url()`.
 * Added a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 
@@ -97,6 +101,6 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 
 ## Upgrade Notice
 
-### 1.6
+### 1.7
 
 Always immediately update this plugin please!
