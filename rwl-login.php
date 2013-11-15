@@ -829,7 +829,9 @@ default:
 		wp_clear_auth_cookie();
 
 	login_header(__('Log In'), '', $errors);
-
+	
+	$user_login = '';
+	
 	if ( isset($_POST['log']) )
 		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr(wp_unslash($_POST['log'])) : '';
 	$rememberme = ! empty( $_POST['rememberme'] );

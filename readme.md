@@ -1,10 +1,10 @@
 # Rename wp-login.php
 
 **Contributors:** avryl  
-**Tags:** rename, login, wp-login, wp-login.php, brute force, attacks  
-**Requires at least:** 3.6  
-**Tested up to:** 3.7  
-**Stable tag:** 1.7  
+**Tags:** rename, login, wp-login, wp-login.php, brute force attacks, custom login url  
+**Requires at least:** 3.7  
+**Tested up to:** 3.7.1  
+**Stable tag:** 1.8  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ Please bookmark or remember your login url, accessing wp-login.php or wp-admin w
 
 ### Compatibility
 
-Works perfectly on WordPress 3.6 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
+Requires WordPress 3.7 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
 
 Compatible with plugins like:
 
@@ -44,10 +44,6 @@ While you could use this plugin to prevent a lot of brute force attacks, it does
 
 If you want to keep your login url secret, you should make sure there aren’t any links pointing to it on your website.
 
-### GitHub
-
-This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
-
 ## Installation
 
 1. Go to Plugins › Add New.
@@ -64,7 +60,13 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 
 ## Changelog
 
-### 1.6
+### 1.8
+
+* OOP PHP.
+* Requires WordPress 3.7 or higher.
+* MultiViews compatible.
+
+### 1.7
 
 * Made compatible with WordPress 3.7.
 
@@ -98,9 +100,3 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 ### 1.0
 
 * Initial version.
-
-## Upgrade Notice
-
-### 1.7
-
-Always immediately update this plugin please!
