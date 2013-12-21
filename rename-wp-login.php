@@ -216,9 +216,7 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 			
 			if ( is_admin() && ! is_user_logged_in() && ! defined( 'DOING_AJAX' ) && ! get_option( 'rwl_admin' ) ) {
 				
-				remove_action( 'wp_head', 'mp6_override_toolbar_margin', 11 );
-				
-				$this->set_404();
+				wp_die( __( 'You must log in to access the admin area.' ) );
 				
 			}
 			
