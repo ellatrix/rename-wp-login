@@ -11,7 +11,7 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 //require( dirname(__FILE__) . '/wp-load.php' );
 
-global $error, $interim_login, $current_site, $action;
+global $error, $interim_login, $action;
 
 // Redirect to https login if forced to use SSL
 if ( force_ssl_admin() && ! is_ssl() ) {
@@ -33,7 +33,7 @@ if ( force_ssl_admin() && ! is_ssl() ) {
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
 function login_header($title = 'Log In', $message = '', $wp_error = '') {
-	global $error, $interim_login, $current_site, $action;
+	global $error, $interim_login, $action;
 
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
@@ -59,7 +59,12 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
 	?><!DOCTYPE html>
-	<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+	<!--[if IE 8]>
+		<html xmlns="http://www.w3.org/1999/xhtml" class="ie8" <?php language_attributes(); ?>>
+	<![endif]-->
+	<!--[if !(IE 8) ]><!-->
+		<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+	<!--<![endif]-->
 	<head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
@@ -67,6 +72,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	wp_admin_css( 'wp-admin', true );
 	wp_admin_css( 'colors-fresh', true );
+	wp_admin_css( 'ie', true );
 
 	// Remove all stored post data on logging out.
 	// This could be added by add_action('login_head'...) like wp_shake_js()
@@ -92,7 +98,7 @@ function login_header($title = 'Log In', $message = '', $wp_error = '') {
 
 	if ( is_multisite() ) {
 		$login_header_url   = network_home_url();
-		$login_header_title = $current_site->site_name;
+		$login_header_title = get_current_site()->site_name;
 	} else {
 		$login_header_url   = __( 'http://wordpress.org/' );
 		$login_header_title = __( 'Powered by WordPress' );
@@ -264,7 +270,7 @@ function wp_login_viewport_meta() {
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
 function retrieve_password() {
-	global $wpdb, $current_site, $wp_hasher;
+	global $wpdb, $wp_hasher;
 
 	$errors = new WP_Error();
 
@@ -301,8 +307,8 @@ function retrieve_password() {
 	/**
 	 * Fires before a new password is retrieved.
 	 *
-	 * @since 1.5.2
-	 * @deprecated 1.5.2 Misspelled. Use 'retrieve_password' hook instead.
+	 * @since 1.5.0
+	 * @deprecated 1.5.1 Misspelled. Use 'retrieve_password' hook instead.
 	 *
 	 * @param string $user_login The user login name.
 	 */
@@ -310,7 +316,7 @@ function retrieve_password() {
 	/**
 	 * Fires before a new password is retrieved.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.1
 	 *
 	 * @param string $user_login The user login name.
 	 */
@@ -510,7 +516,7 @@ case 'retrievepassword' :
 	/**
 	 * Fires before the lost password form.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.1
 	 */
 	do_action( 'lost_password' );
 
@@ -544,7 +550,7 @@ if ( get_option( 'users_can_register' ) ) :
 	/**
 	 * Filter the registration URL below the login form.
 	 *
-	 * @since 1.5.2
+	 * @since 1.5.0
 	 *
 	 * @param string $registration_url Registration URL.
 	 */
