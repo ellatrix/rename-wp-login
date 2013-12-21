@@ -75,7 +75,7 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 			
 			global $wp_version;
 			
-			if ( version_compare( $wp_version, '3.7', '<' ) ) {
+			if ( version_compare( $wp_version, '3.8', '<' ) ) {
 			
 				add_action( 'admin_init', array( $this, 'admin_init_incompatible' ) );
 				add_action( 'admin_notices', array( $this, 'admin_notices_incompatible' ) );
