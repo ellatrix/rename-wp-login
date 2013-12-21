@@ -2,9 +2,9 @@
 
 **Contributors:** avryl  
 **Tags:** rename, login, wp-login, wp-login.php, brute force attacks, custom login url  
-**Requires at least:** 3.7  
-**Tested up to:** 3.7.1  
-**Stable tag:** 1.8  
+**Requires at least:** 3.8  
+**Tested up to:** 3.8  
+**Stable tag:** 1.9  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,7 @@ Please bookmark or remember your login url, accessing wp-login.php or wp-admin w
 
 ### Compatibility
 
-Requires WordPress 3.7 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
+Requires WordPress 3.8 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
 
 Compatible with plugins like:
 
@@ -59,6 +59,12 @@ If you want to keep your login url secret, you should make sure there aren’t a
 Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 ## Changelog
+
+### 1.9
+
+* wp-admin will now have a `wp_die()` message instead of a 404 template because this caused problems.
+* Minimum version is now 3.8.
+* Added updates from wp-login.php in 3.8.
 
 ### 1.8
 
