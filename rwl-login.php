@@ -11,7 +11,7 @@
 /** Make sure that the WordPress bootstrap has run before continuing. */
 //require( dirname(__FILE__) . '/wp-load.php' );
 
-global $error, $interim_login, $action;
+global $error, $interim_login, $action, $user_login;
 
 // Redirect to https login if forced to use SSL
 if ( force_ssl_admin() && ! is_ssl() ) {
@@ -32,7 +32,7 @@ if ( force_ssl_admin() && ! is_ssl() ) {
  * @param string $wp_error Optional. The error to pass. Default empty.
  * @param WP_Error $wp_error Optional. WordPress Error Object
  */
-function login_header($title = 'Log In', $message = '', $wp_error = '') {
+function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	global $error, $interim_login, $action;
 
 	// Don't index any of these forms
@@ -363,7 +363,7 @@ function retrieve_password() {
 	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
 	$message .= __('If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
 	$message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
-	$message .= '<' . home_url() . '/' . get_option('rwl_page') . '/' . "?action=rp&key=$key&login=" . rawurlencode($user_login) . ">\r\n";
+	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . ">\r\n";
 
 	if ( is_multisite() )
 		$blogname = $GLOBALS['current_site']->site_name;
@@ -478,7 +478,7 @@ case 'logout' :
 	check_admin_referer('log-out');
 	wp_logout();
 
-	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url() . '/' . get_option('rwl_page') . '/' . '?loggedout=true';
+	$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?loggedout=true';
 	wp_safe_redirect( $redirect_to );
 	exit();
 
@@ -490,7 +490,7 @@ case 'retrievepassword' :
 	if ( $http_post ) {
 		$errors = retrieve_password();
 		if ( !is_wp_error($errors) ) {
-			$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url() . '/' . get_option('rwl_page') . '/' . '?checkemail=confirm';
+			$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'wp-login.php?checkemail=confirm';
 			wp_safe_redirect( $redirect_to );
 			exit();
 		}
@@ -526,7 +526,7 @@ case 'retrievepassword' :
 
 ?>
 
-<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( home_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword' ); ?>" method="post">
+<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
 	<p>
 		<label for="user_login" ><?php _e('Username or E-mail:') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
@@ -569,9 +569,9 @@ case 'rp' :
 
 	if ( is_wp_error($user) ) {
 		if ( $user->get_error_code() === 'expired_key' )
-			wp_redirect( home_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword&error=expiredkey' );
+			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=expiredkey' ) );
 		else
-			wp_redirect( home_url() . '/' . get_option('rwl_page') . '/' . '?action=lostpassword&error=invalidkey' );
+			wp_redirect( site_url( 'wp-login.php?action=lostpassword&error=invalidkey' ) );
 		exit;
 	}
 
@@ -603,8 +603,7 @@ case 'rp' :
 	login_header(__('Reset Password'), '<p class="message reset-pass">' . __('Enter your new password below.') . '</p>', $errors );
 
 ?>
-<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( home_url() . '/' . get_option('rwl_page') . '/' . '?action=resetpass&key=' . urlencode( $_GET['key'] ) . '&login=' . urlencode( $_GET['login'] ) ); ?>" method="post" autocomplete="off">
-
+<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( site_url( 'wp-login.php?action=resetpass&key=' . urlencode( $_GET['key'] ) . '&login=' . urlencode( $_GET['login'] ), 'login_post' ) ); ?>" method="post" autocomplete="off">
 	<input type="hidden" id="user_login" value="<?php echo esc_attr( $_GET['login'] ); ?>" autocomplete="off" />
 
 	<p>
@@ -653,7 +652,7 @@ case 'register' :
 	}
 
 	if ( !get_option('users_can_register') ) {
-		wp_redirect( home_url() . '/' . get_option('rwl_page') . '/' . '?registration=disabled' );
+		wp_redirect( site_url('wp-login.php?registration=disabled') );
 		exit();
 	}
 
@@ -664,7 +663,7 @@ case 'register' :
 		$user_email = $_POST['user_email'];
 		$errors = register_new_user($user_login, $user_email);
 		if ( !is_wp_error($errors) ) {
-			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : home_url() . '/' . get_option('rwl_page') . '/' . '?checkemail=registered';
+			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
 			wp_safe_redirect( $redirect_to );
 			exit();
 		}
@@ -682,7 +681,7 @@ case 'register' :
 	login_header(__('Registration Form'), '<p class="message register">' . __('Register For This Site') . '</p>', $errors);
 ?>
 
-<form name="registerform" id="registerform" action="<?php echo esc_url( home_url() . '/' . get_option('rwl_page') . '/' . '?action=register' ); ?>" method="post">
+<form name="registerform" id="registerform" action="<?php echo esc_url( site_url('wp-login.php?action=register', 'login_post') ); ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr(wp_unslash($user_login)); ?>" size="20" /></label>
@@ -835,15 +834,13 @@ default:
 		wp_clear_auth_cookie();
 
 	login_header(__('Log In'), '', $errors);
-	
-	$user_login = '';
-	
+
 	if ( isset($_POST['log']) )
 		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr(wp_unslash($_POST['log'])) : '';
 	$rememberme = ! empty( $_POST['rememberme'] );
 ?>
 
-<form name="loginform" id="loginform" action="<?php echo esc_url( home_url() . '/' . get_option('rwl_page') . '/' ); ?>" method="post">
+<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 	<p>
 		<label for="user_login"><?php _e('Username') ?><br />
 		<input type="text" name="log" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
