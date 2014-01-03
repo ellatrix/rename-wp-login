@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.0
+Version: 2.0.1
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -68,19 +68,7 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 		}
 
-		public static function instance() {
-
-			global $rwl;
-
-			if ( ! $rwl ) {
-
-				$rwl = new self;
-
-			}
-
-		}
-
-		private function __construct() {
+		public function __construct() {
 
 			global $wp_version;
 
@@ -130,6 +118,8 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 			add_filter( 'site_url', array( $this, 'site_url' ), 10, 2 );
 			add_filter( 'network_site_url', array( $this, 'site_url' ), 10, 2 );
 			add_filter( 'wp_redirect', array( $this, 'wp_redirect' ), 10, 2 );
+			
+			remove_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
 
 		}
 
@@ -292,7 +282,7 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 				}
 
-				wp_redirect( $redirect );
+				wp_safe_redirect( $redirect );
 
 				die;
 
@@ -335,8 +325,7 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			$out = '';
 
-			if ( ! is_network_admin()
-				&& ! get_option( 'permalink_structure' ) ) {
+			if ( ! get_option( 'permalink_structure' ) ) {
 
 				$out .= '<div class="error"><p><strong>Rename wp-login.php</strong> doesn’t work if you’re using the default permalink structure.<br>You must <a href="' . admin_url( 'options-permalink.php' ) . '">choose</a> another permalink structure for it to work.</p></div>';
 
@@ -391,31 +380,23 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			}
 
-			if ( strpos( $_SERVER['REQUEST_URI'], $this->new_login_slug() ) !== false ) {
+			$request = parse_url( $_SERVER['REQUEST_URI'] );
 
-				$home_url = parse_url( home_url() );
+			if ( $request['path'] === home_url( $this->new_login_slug(), 'relative' ) ) {
 
-				$home_path = '';
-				if ( isset( $home_url['path'] ) )
-					$home_path = $home_url['path'];
-				$home_path = trim( $home_path, '/' );
+				wp_safe_redirect( $this->new_login_url() );
 
-				$req_uri = $_SERVER['REQUEST_URI'];
-				$req_uri_array = explode( '?', $req_uri );
-				$req_uri = $req_uri_array[0];
-				$req_uri = trim( $req_uri, '/' );
-				$req_uri = preg_replace( "|^$home_path|i", '', $req_uri );
-				$req_uri = trim( $req_uri, '/' );
+				die;
 
-				if ( $req_uri === $this->new_login_slug() ) {
+			}
 
-					status_header( 200 );
+			if ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' ) ) {
 
-					require_once( $this->path() . 'rwl-login.php' );
+				status_header( 200 );
 
-					die;
+				require_once( $this->path() . 'rwl-login.php' );
 
-				}
+				die;
 
 			}
 
@@ -482,6 +463,6 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 	}
 
-	Rename_WP_Login::instance();
+	new Rename_WP_Login;
 
 }

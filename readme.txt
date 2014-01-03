@@ -4,7 +4,7 @@ Contributors: avryl
 Tags: rename, login, wp-login, wp-login.php, brute force attacks, custom login url
 Requires at least: 3.8
 Tested up to: 3.8
-Stable tag: 2.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,14 @@ This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 == Changelog ==
+
+= 2.0.1 =
+
+* Prevents pretty redirects such as /login and /admin.
+* Simplifies some code.
+* Forces login page with trailing slash.
+* Replaces a wp_redirect with wp_safe_redirect.
+* Shows error message in the network admin if permalinks are not enabled for the main site.
 
 = 2.0 =
 
