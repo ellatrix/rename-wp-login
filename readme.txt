@@ -1,10 +1,11 @@
 === Rename wp-login.php ===
 
 Contributors: avryl
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=49WXVSPP2HUKG
 Tags: rename, login, wp-login, wp-login.php, brute force attacks, custom login url
 Requires at least: 3.8
 Tested up to: 3.8
-Stable tag: 2.0.1
+Stable tag: 2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,8 +19,6 @@ Please bookmark or remember your login url, accessing wp-login.php or wp-admin w
 = Compatibility =
 
 Requires WordPress 3.8 or higher. The registration form, lost password form, login widget and expired sessions will keep working.
-
-You also must have pretty, or almost pretty, permalinks enabled.
 
 Compatible with plugins like:
 
@@ -65,6 +64,11 @@ This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 == Changelog ==
+
+= 2.1 =
+
+* Works now with non-pretty permalinks!
+* Gives a message when using W3 Total Cache or WP Super Cache to update options.
 
 = 2.0.1 =
 

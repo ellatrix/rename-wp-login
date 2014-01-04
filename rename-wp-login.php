@@ -6,13 +6,14 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.0.1
+Version: 2.1
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
-if ( ! class_exists( 'Rename_WP_Login' ) ) {
+if ( ! class_exists( 'Rename_WP_Login' )
+	&& defined( 'ABSPATH' ) ) {
 
 	class Rename_WP_Login {
 
@@ -64,7 +65,17 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function new_login_url() {
 
-			return trailingslashit( trailingslashit( home_url() ) . $this->new_login_slug() );
+			if ( get_option( 'permalink_structure' ) ) {
+
+				return trailingslashit( trailingslashit( home_url() ) . $this->new_login_slug() );
+
+			}
+
+			else {
+
+				return trailingslashit( home_url() ) . '?' . $this->new_login_slug();
+
+			}
 
 		}
 
@@ -82,20 +93,14 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 			}
 
 			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
-			register_deactivation_hook( $this->basename(), array( $this, 'deactivate' ) );
 			register_uninstall_hook( $this->basename(), array( 'Rename_WP_Login', 'uninstall' ) );
 
 			add_action( 'admin_init', array( $this, 'admin_init' ) );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 			add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
 
-			if ( ! get_option( 'permalink_structure' ) ) {
-
-				return;
-
-			}
-
-			if ( is_multisite() && ! function_exists( 'is_plugin_active_for_network' ) ) {
+			if ( is_multisite()
+				&& ! function_exists( 'is_plugin_active_for_network' ) ) {
 
 			    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
@@ -103,7 +108,8 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			add_filter( 'plugin_action_links_' . $this->basename(), array( $this, 'plugin_action_links' ) );
 
-			if ( is_multisite() && is_plugin_active_for_network( $this->basename() ) ) {
+			if ( is_multisite()
+				&& is_plugin_active_for_network( $this->basename() ) ) {
 
 				add_filter( 'network_admin_plugin_action_links_' . $this->basename(), array( $this, 'plugin_action_links' ) );
 
@@ -118,14 +124,16 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 			add_filter( 'site_url', array( $this, 'site_url' ), 10, 2 );
 			add_filter( 'network_site_url', array( $this, 'site_url' ), 10, 2 );
 			add_filter( 'wp_redirect', array( $this, 'wp_redirect' ), 10, 2 );
-			
+
+			add_filter( 'site_option_welcome_email', array( $this, 'welcome_email' ) );
+
 			remove_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
 
 		}
 
 		public function admin_notices_incompatible() {
 
-			echo '<div class="error"><p>Please upgrade to the latest version of WordPress to activate <strong>Rename wp-login.php</strong>.</p></div>';
+			echo '<div class="update-nag"><p>Please upgrade to the latest version of WordPress to activate <strong>Rename wp-login.php</strong>.</p></div>';
 
 		}
 
@@ -135,26 +143,6 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			delete_option( 'rwl_admin' );
 
-			if ( is_network_admin() ) {
-
-				$rwl_page = get_site_option( 'rwl_page', 'login' );
-
-				$welcome_email = get_site_option( 'welcome_email' );
-				$welcome_email = preg_replace( "/(BLOG_URL)([\w\-]+)(\/|\.php)/", "$1$rwl_page/", $welcome_email );
-
-				update_site_option( 'welcome_email', $welcome_email );
-
-			}
-
-		}
-
-		public function deactivate() {
-
-			$welcome_email = get_site_option( 'welcome_email' );
-			$welcome_email = preg_replace( "/(BLOG_URL)([\w\-]+)(\/|\.php)/", "$1wp-login.php", $welcome_email );
-
-			update_site_option( 'welcome_email', $welcome_email );
-
 		}
 
 		public static function uninstall() {
@@ -163,29 +151,29 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			if ( is_multisite() ) {
 
-			    $blogs = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
+				$blogs = $wpdb->get_col( "SELECT blog_id FROM {$wpdb->blogs}" );
 
-			    if ( $blogs ) {
+					if ( $blogs ) {
 
-			        foreach( $blogs as $blog ) {
+						foreach( $blogs as $blog ) {
 
-			            switch_to_blog( $blog );
+							switch_to_blog( $blog );
 
-			            delete_option( 'rwl_page' );
+							delete_option( 'rwl_page' );
 
-			        }
+						}
 
-			        restore_current_blog();
+						restore_current_blog();
 
-			    }
+					}
 
-			    delete_site_option( 'rwl_page' );
+				delete_site_option( 'rwl_page' );
 
 			}
-			
+
 			else {
 
-			    delete_option( 'rwl_page' );
+				delete_option( 'rwl_page' );
 
 			}
 
@@ -193,7 +181,9 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function wpmu_options() {
 
-			$out = '<h3>Rename wp-login.php</h3>';
+			$out = '';
+
+			$out .= '<h3>Rename wp-login.php</h3>';
 			$out .= '<p>This option allows you to set a networkwide default, which can be overridden by individual sites. Simply go to to the site’s permalink settings to change the url.</p>';
 			$out .= '<p>Need help? Try the <a href="http://wordpress.org/support/plugin/rename-wp-login#postform" target="_blank">support forum</a>.</p>';
 			$out .= '<table class="form-table">';
@@ -210,14 +200,10 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 		public function update_wpmu_options() {
 
 			if ( ( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) )
-				&& strpos( $rwl_page, 'wp-login' ) === false ) {
+				&& strpos( $rwl_page, 'wp-login' ) === false
+				&& ! in_array( $rwl_page, $this->forbidden_slugs() ) ) {
 
 				update_site_option( 'rwl_page', $rwl_page );
-
-				$welcome_email = get_site_option( 'welcome_email' );
-				$welcome_email = preg_replace( "/(BLOG_URL)([\w\-]+)(\/|\.php)/", "$1$rwl_page/", $welcome_email );
-
-				update_site_option( 'welcome_email', $welcome_email );
 
 			}
 
@@ -246,14 +232,15 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 				&& $pagenow === 'options-permalink.php' ) {
 
 				if ( ( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) )
-					&& strpos( $rwl_page, 'wp-login' ) === false ) {
+					&& strpos( $rwl_page, 'wp-login' ) === false
+					&& ! in_array( $rwl_page, $this->forbidden_slugs() ) ) {
 
 					if ( $rwl_page === get_site_option( 'rwl_page', 'login' ) ) {
 
 						delete_option( 'rwl_page' );
 
 					}
-					
+
 					else {
 
 						update_option( 'rwl_page', $rwl_page );
@@ -315,27 +302,53 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function rwl_page_input() {
 
-			echo '<code>' . home_url() . '/</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . $this->new_login_slug()  . '"> <code>/</code>';
+			if ( get_option( 'permalink_structure' ) ) {
+
+				echo '<code>' . trailingslashit( home_url() ) . '</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . $this->new_login_slug()  . '"> <code>/</code>';
+
+			}
+
+			else {
+
+				echo '<code>' . trailingslashit( home_url() ) . '?</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . $this->new_login_slug()  . '">';
+
+			}
 
 		}
 
 		public function admin_notices() {
 
-			global $pagenow;
+			global $pagenow, $cache_rejected_uri;
 
 			$out = '';
-
-			if ( ! get_option( 'permalink_structure' ) ) {
-
-				$out .= '<div class="error"><p><strong>Rename wp-login.php</strong> doesn’t work if you’re using the default permalink structure.<br>You must <a href="' . admin_url( 'options-permalink.php' ) . '">choose</a> another permalink structure for it to work.</p></div>';
-
-			}
 
 			if ( ! is_network_admin()
 				&& $pagenow === 'options-permalink.php'
 				&& isset( $_GET['settings-updated'] ) ) {
 
-				$out .= '<div class="updated"><p>Your login page is now here: <a href="' . $this->new_login_url() . '">' . home_url() . '/<strong>' . $this->new_login_slug() . '</strong>/</a>. Bookmark this page!</p></div>';
+				$out .= '<div class="updated"><p>Your login page is now here: <strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>. Bookmark this page!</p></div>';
+
+			}
+
+			if ( current_user_can( 'manage_options' )
+				&& function_exists( 'w3_instance' )
+				&& ( $w3tc = w3_instance( 'W3_Config' ) )
+				&& ( $w3tc = $w3tc->get_array( 'pgcache.reject.uri' ) )
+				&& ! in_array( $this->new_login_slug(), $w3tc ) ) {
+
+				$admin_url = admin_url( 'admin.php?page=w3tc_pgcache#pgcache_reject_uri' );
+
+				$out .= '<div class="update-nag"><strong>W3 Total Cache</strong> is enabled on your website. To make sure <strong>Rename wp-login.php</strong> works correctly, you should add <strong>' . $this->new_login_slug() . '</strong> to <a href="' . $admin_url . '">Never cache the following pages</a>. This notice will disappear once you’ve done that correctly.</div>';
+
+			}
+
+			if ( current_user_can( 'manage_options' )
+				&& is_array( $cache_rejected_uri )
+				&& ! in_array( $this->new_login_slug(), $cache_rejected_uri ) ) {
+
+				$admin_url = is_network_admin() ? network_admin_url( 'settings.php?page=wpsupercache&tab=settings#rejecturi' ) : admin_url( 'options-general.php?page=wpsupercache&tab=settings#rejecturi' );
+
+				$out .= '<div class="update-nag"><strong>WP Super Cache</strong> is enabled on your website. To make sure <strong>Rename wp-login.php</strong> works correctly, you should add <strong>' . $this->new_login_slug() . '</strong> to <a href="' . $admin_url . '">Rejected URIs</a>. This notice will disappear once you’ve done that correctly.</div>';
 
 			}
 
@@ -372,8 +385,8 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			}
 
-			if ( ! is_multisite() && 
-				( strpos( $_SERVER['REQUEST_URI'], 'wp-signup' )  !== false
+			if ( ! is_multisite()
+				&& ( strpos( $_SERVER['REQUEST_URI'], 'wp-signup' )  !== false
 					|| strpos( $_SERVER['REQUEST_URI'], 'wp-activate' ) )  !== false ) {
 
 				wp_die( __( 'This feature is not enabled.' ) );
@@ -384,13 +397,15 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 			if ( $request['path'] === home_url( $this->new_login_slug(), 'relative' ) ) {
 
-				wp_safe_redirect( $this->new_login_url() );
+				wp_safe_redirect( $this->new_login_url() . ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '' ) );
 
 				die;
 
 			}
 
-			if ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' ) ) {
+			if ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' )
+				|| ( ! get_option( 'permalink_structure' )
+					&& isset( $_GET[$this->new_login_slug()] ) ) ) {
 
 				status_header( 200 );
 
@@ -435,11 +450,35 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function site_url( $url, $path ) {
 
-			if ( strpos( $path, 'wp-login.php' ) !== false ) {
+			return $this->filter_wp_login_php( $url );
 
-				$args = explode( '?', $path );
+		}
 
-				$url = ! empty( $args[1] ) ? $this->new_login_url() . '?' . $args[1] : $this->new_login_url();
+		public function wp_redirect( $location, $status ) {
+
+			return $this->filter_wp_login_php( $location );
+
+		}
+
+		public function filter_wp_login_php( $url ) {
+
+			if ( strpos( $url, 'wp-login.php' ) !== false ) {
+
+				$args = explode( '?', $url );
+
+				if ( isset( $args[1] ) ) {
+
+					parse_str( $args[1], $args );
+
+					$url = add_query_arg( $args, $this->new_login_url() );
+
+				}
+
+				else {
+
+					$url = $this->new_login_url();
+
+				}
 
 			}
 
@@ -447,17 +486,17 @@ if ( ! class_exists( 'Rename_WP_Login' ) ) {
 
 		}
 
-		public function wp_redirect( $location, $status ) {
+		public function welcome_email( $value ) {
 
-			if ( strpos( $location, 'wp-login.php' ) !== false ) {
+			return $value = preg_replace( '/(BLOG_URL)([\w\-]+)(\.php)/', 'BLOG_URL' . trailingslashit( get_site_option( 'rwl_page', 'login' ) ), $value );
 
-				$args = explode( '?', $location );
+		}
 
-				$location = ! empty( $args[1] ) ? $this->new_login_url() . '?' . $args[1] : $this->new_login_url();
+		public function forbidden_slugs() {
 
-			}
+			$wp = new WP;
 
-			return $location;
+			return array_merge( $wp->public_query_vars, $wp->private_query_vars );
 
 		}
 
