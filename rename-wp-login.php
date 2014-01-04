@@ -419,7 +419,9 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 		public function login_init() {
 
-			if ( strpos( $_SERVER['REQUEST_URI'], 'wp-login' ) !== false ) {
+			$request = parse_url( $_SERVER['REQUEST_URI'] );
+
+			if ( untrailingslashit( str_replace( '.php', '', $request['path'] ) ) === site_url( 'wp-login', 'relative' ) ) {
 
 				if ( ( $referer = wp_get_referer() )
 					&& strpos( $referer, 'wp-activate.php' ) !== false
