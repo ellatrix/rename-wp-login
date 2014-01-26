@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.1.1
+Version: 2.2
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -16,6 +16,8 @@ if ( ! class_exists( 'Rename_WP_Login' )
 	&& defined( 'ABSPATH' ) ) {
 
 	class Rename_WP_Login {
+
+		private $wp_login_php;
 
 		private function basename() {
 
@@ -29,22 +31,36 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 		}
 
-		private function set_404() {
+		private function use_trailing_slashes() {
 
-			global $wp_query;
+			return ( '/' === substr( get_option( 'permalink_structure' ), -1, 1 ) );
 
-			status_header( 404 );
+		}
 
-			$wp_query->set_404();
+		private function user_trailingslashit( $string ) {
 
-			if ( ( ( $template = get_404_template() )
-					|| ( $template = get_index_template() ) )
-				&& ( $template = apply_filters( 'template_include', $template ) ) ) {
+			return $this->use_trailing_slashes()
+				? trailingslashit( $string )
+				: untrailingslashit( $string );
 
-				include( $template );
+		}
+
+		private function wp_template_loader() {
+
+			global $pagenow;
+
+			$pagenow = 'index.php';
+
+			if ( ! defined( 'WP_USE_THEMES' ) ) {
+
+				define( 'WP_USE_THEMES', true );
 
 			}
 
+			wp();
+
+			require_once( ABSPATH . WPINC . '/template-loader.php' );
+			
 			die;
 
 		}
@@ -67,7 +83,7 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 			if ( get_option( 'permalink_structure' ) ) {
 
-				return trailingslashit( trailingslashit( home_url() ) . $this->new_login_slug() );
+				return $this->user_trailingslashit( trailingslashit( home_url() ) . $this->new_login_slug() );
 
 			}
 
@@ -117,13 +133,13 @@ if ( ! class_exists( 'Rename_WP_Login' )
 				add_action( 'update_wpmu_options', array( $this, 'update_wpmu_options' ) );
 
 			}
+			
+			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 1 );
+			add_action( 'wp_loaded', array( $this, 'wp_loaded' ) );
 
-			add_action( 'wp_loaded', array( $this, 'init' ) );
-			add_action( 'login_init', array( $this, 'login_init' ) );
-
-			add_filter( 'site_url', array( $this, 'site_url' ), 10, 2 );
-			add_filter( 'network_site_url', array( $this, 'site_url' ), 10, 2 );
-			add_filter( 'wp_redirect', array( $this, 'wp_redirect' ), 10, 2 );
+			add_filter( 'site_url', array( $this, 'filter_wp_login_php' ) );
+			add_filter( 'network_site_url', array( $this, 'filter_wp_login_php' ) );
+			add_filter( 'wp_redirect', array( $this, 'filter_wp_login_php' ) );
 
 			add_filter( 'site_option_welcome_email', array( $this, 'welcome_email' ) );
 
@@ -301,10 +317,10 @@ if ( ! class_exists( 'Rename_WP_Login' )
 		}
 
 		public function rwl_page_input() {
-
+			
 			if ( get_option( 'permalink_structure' ) ) {
 
-				echo '<code>' . trailingslashit( home_url() ) . '</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . $this->new_login_slug()  . '"> <code>/</code>';
+				echo '<code>' . trailingslashit( home_url() ) . '</code> <input id="rwl-page-input" type="text" name="rwl_page" value="' . $this->new_login_slug()  . '">' . ( $this->use_trailing_slashes() ? ' <code>/</code>' : '' );
 
 			}
 
@@ -375,15 +391,9 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 		}
 
-		public function init() {
+		public function plugins_loaded() {
 
-			if ( is_admin()
-				&& ! is_user_logged_in()
-				&& ! defined( 'DOING_AJAX' ) ) {
-
-				wp_die( __( 'You must log in to access the admin area.' ) );
-
-			}
+			global $pagenow;
 
 			if ( ! is_multisite()
 				&& ( strpos( $_SERVER['REQUEST_URI'], 'wp-signup' )  !== false
@@ -395,33 +405,52 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
 
-			if ( $request['path'] === home_url( $this->new_login_slug(), 'relative' ) ) {
+			if ( strpos( $_SERVER['REQUEST_URI'], 'wp-login' ) !== false ) {
 
-				wp_safe_redirect( $this->new_login_url() . ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '' ) );
-
-				die;
+				$this->wp_login_php = true;
+				
+				$_SERVER['REQUEST_URI'] = str_repeat( '-/', 10 );
+				
+				$pagenow = 'index.php';
 
 			}
 
-			if ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' )
+			elseif ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' )
 				|| ( ! get_option( 'permalink_structure' )
-					&& isset( $_GET[$this->new_login_slug()] ) ) ) {
+					&& isset( $_GET[$this->new_login_slug()] )
+					&& empty( $_GET[$this->new_login_slug()] ) ) ) {
 
-				status_header( 200 );
-
-				require_once( $this->path() . 'rwl-login.php' );
-
-				die;
+				$pagenow = 'wp-login.php';
 
 			}
 
 		}
 
-		public function login_init() {
+		public function wp_loaded() {
+
+			global $pagenow;
+
+			if ( is_admin()
+				&& ! is_user_logged_in()
+				&& ! defined( 'DOING_AJAX' ) ) {
+
+				wp_die( __( 'You must log in to access the admin area.' ) );
+
+			}
 
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
 
-			if ( untrailingslashit( str_replace( '.php', '', $request['path'] ) ) === site_url( 'wp-login', 'relative' ) ) {
+			if ( $pagenow === 'wp-login.php'
+				&& $request['path'] !== $this->user_trailingslashit( $request['path'] ) ) {
+
+				wp_safe_redirect( $this->user_trailingslashit( $this->new_login_url() )
+					. ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '' ) );
+
+				die;
+
+			}
+
+			elseif ( $this->wp_login_php ) {
 
 				if ( ( $referer = wp_get_referer() )
 					&& strpos( $referer, 'wp-activate.php' ) !== false
@@ -436,7 +465,8 @@ if ( ! class_exists( 'Rename_WP_Login' )
 						&& ( $result->get_error_code() === 'already_active'
 							|| $result->get_error_code() === 'blog_taken' ) ) {
 
-						wp_safe_redirect( $this->new_login_url() . ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '' ) );
+						wp_safe_redirect( $this->new_login_url()
+							. ( ! empty( $_SERVER['QUERY_STRING'] ) ? '?' . $_SERVER['QUERY_STRING'] : '' ) );
 
 						die;
 
@@ -444,21 +474,18 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 				}
 
-				$this->set_404();
+				$this->wp_template_loader();
 
 			}
 
-		}
+			elseif ( $pagenow === 'wp-login.php' ) {
 
-		public function site_url( $url, $path ) {
+				require_once( $this->path() . 'rwl-login.php' );
 
-			return $this->filter_wp_login_php( $url );
+				die;
 
-		}
 
-		public function wp_redirect( $location, $status ) {
-
-			return $this->filter_wp_login_php( $location );
+			}
 
 		}
 
@@ -490,7 +517,7 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 		public function welcome_email( $value ) {
 
-			return $value = preg_replace( '/(BLOG_URL)([\w\-]+)(\.php)/', 'BLOG_URL' . trailingslashit( get_site_option( 'rwl_page', 'login' ) ), $value );
+			return $value = str_replace( 'wp-login.php', trailingslashit( get_site_option( 'rwl_page', 'login' ) ), $value );
 
 		}
 
