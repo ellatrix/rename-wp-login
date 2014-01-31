@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.2.2
+Version: 2.2.3
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -137,9 +137,9 @@ if ( ! class_exists( 'Rename_WP_Login' )
 			add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 1 );
 			add_action( 'wp_loaded', array( $this, 'wp_loaded' ) );
 
-			add_filter( 'site_url', array( $this, 'filter_wp_login_php' ) );
-			add_filter( 'network_site_url', array( $this, 'filter_wp_login_php' ) );
-			add_filter( 'wp_redirect', array( $this, 'filter_wp_login_php' ) );
+			add_filter( 'site_url', array( $this, 'site_url' ), 10, 4 );
+			add_filter( 'network_site_url', array( $this, 'network_site_url' ), 10, 3 );
+			add_filter( 'wp_redirect', array( $this, 'wp_redirect' ), 10, 2 );
 
 			add_filter( 'site_option_welcome_email', array( $this, 'welcome_email' ) );
 
@@ -489,6 +489,24 @@ if ( ! class_exists( 'Rename_WP_Login' )
 
 
 			}
+
+		}
+
+		public function site_url( $url, $path, $scheme, $blog_id ) {
+
+			return $this->filter_wp_login_php( $url );
+
+		}
+
+		public function network_site_url( $url, $path, $scheme ) {
+
+			return $this->filter_wp_login_php( $url );
+
+		}
+
+		public function wp_redirect( $location, $status ) {
+
+			return $this->filter_wp_login_php( $location );
 
 		}
 

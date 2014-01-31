@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: rename, login, wp-login, wp-login.php, brute force attacks, custom login url, security
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,10 @@ This plugin has a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
 Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 == Changelog ==
+
+= 2.2.3 =
+
+* Fixed URL filters.
 
 = 2.2 =
 
