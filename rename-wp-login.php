@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.2.4
+Version: 2.2.5
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -90,7 +90,7 @@ if ( defined( 'ABSPATH' )
 
 		}
 
-		public function new_login_url( $scheme ) {
+		public function new_login_url( $scheme = null ) {
 
 			if ( get_option( 'permalink_structure' ) ) {
 

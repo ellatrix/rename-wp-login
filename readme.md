@@ -4,7 +4,7 @@
 **Tags:** rename, login, wp-login, wp-login.php, brute force attacks, custom login url, security  
 **Requires at least:** 3.8  
 **Tested up to:** 3.8.1  
-**Stable tag:** 2.2.4  
+**Stable tag:** 2.2.5  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
