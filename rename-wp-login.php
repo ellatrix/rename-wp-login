@@ -6,19 +6,14 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.2.5
+Version: 2.2.6
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 if ( defined( 'ABSPATH' )
-	&& ! class_exists( 'Rename_WP_Login' )
-	&& ! function_exists( 'login_header' )
-	&& ! function_exists( 'login_footer' )
-	&& ! function_exists( 'wp_shake_js' )
-	&& ! function_exists( 'wp_login_viewport_meta' )
-	&& ! function_exists( 'retrieve_password' ) ) {
+	&& ! class_exists( 'Rename_WP_Login' ) ) {
 
 	class Rename_WP_Login {
 
