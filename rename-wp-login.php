@@ -124,7 +124,7 @@ if ( defined( 'ABSPATH' )
 			if ( is_multisite()
 				&& ! function_exists( 'is_plugin_active_for_network' ) ) {
 
-			    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
 			}
 
@@ -489,10 +489,23 @@ if ( defined( 'ABSPATH' )
 
 			elseif ( $pagenow === 'wp-login.php' ) {
 
-				require_once( $this->path() . 'rwl-login.php' );
+				global $wp_version;
+
+				$version = explode( '.', $wp_version );
+				$major = $version[0];
+				$minor = $version[1];
+
+				if ( file_exists( $this->path() . 'rwl-login-' . $major . '.' . $minor . '.php' ) ) {
+
+					require_once( $this->path() . 'rwl-login-' . $major . '.' . $minor . '.php' );
+
+				} else {
+
+					require_once( $this->path() . 'rwl-login-3.9.php' );
+
+				}
 
 				die;
-
 
 			}
 
