@@ -257,7 +257,7 @@ if ( defined( 'ABSPATH' )
 					&& strpos( $rwl_page, 'wp-login' ) === false
 					&& ! in_array( $rwl_page, $this->forbidden_slugs() ) ) {
 
-					if ( $rwl_page === get_site_option( 'rwl_page', 'login' ) ) {
+					if ( is_multisite() && $rwl_page === get_site_option( 'rwl_page', 'login' ) ) {
 
 						delete_option( 'rwl_page' );
 
