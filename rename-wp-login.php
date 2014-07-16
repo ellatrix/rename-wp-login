@@ -493,7 +493,7 @@ if ( defined( 'ABSPATH' )
 
 				$version = explode( '.', $wp_version );
 				$major = $version[0];
-				$minor = $version[1];
+				$minor = isset( $version[1] ) ? $version[1] : '';
 
 				if ( file_exists( $this->path() . 'rwl-login-' . $major . '.' . $minor . '.php' ) ) {
 
