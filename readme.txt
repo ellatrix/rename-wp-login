@@ -3,9 +3,9 @@
 Contributors: avryl
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=49WXVSPP2HUKG
 Tags: rename, login, wp-login, wp-login.php, brute force attacks, custom login url, security
-Requires at least: 3.8
-Tested up to: 3.9
-Stable tag: 2.3
+Requires at least: 4.0
+Tested up to: 4.0
+Stable tag: 2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -61,6 +61,10 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 On a multisite install the `rwl_page` option will be in the sitemeta table, if there is no such option in the options table.
 
 == Changelog ==
+
+= 2.4 =
+
+* WordPress 4.0 compatible.
 
 = 2.3 =
 

@@ -6,7 +6,7 @@ Plugin URI: http://wordpress.org/plugins/rename-wp-login/
 Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.3
+Version: 2.4
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -105,7 +105,7 @@ if ( defined( 'ABSPATH' )
 
 			global $wp_version;
 
-			if ( version_compare( $wp_version, '3.8', '<' ) ) {
+			if ( version_compare( $wp_version, '4.0-RC1-src', '<' ) ) {
 
 				add_action( 'admin_notices', array( $this, 'admin_notices_incompatible' ) );
 				add_action( 'network_admin_notices', array( $this, 'admin_notices_incompatible' ) );
@@ -155,7 +155,7 @@ if ( defined( 'ABSPATH' )
 
 		public function admin_notices_incompatible() {
 
-			echo '<div class="update-nag"><p>Please upgrade to the latest version of WordPress to activate <strong>Rename wp-login.php</strong>.</p></div>';
+			echo '<div class="error"><p>Please upgrade to the latest version of WordPress to activate <strong>Rename wp-login.php</strong>.</p></div>';
 
 		}
 
@@ -489,21 +489,7 @@ if ( defined( 'ABSPATH' )
 
 			elseif ( $pagenow === 'wp-login.php' ) {
 
-				global $wp_version;
-
-				$version = explode( '.', $wp_version );
-				$major = $version[0];
-				$minor = $version[1];
-
-				if ( file_exists( $this->path() . 'rwl-login-' . $major . '.' . $minor . '.php' ) ) {
-
-					require_once( $this->path() . 'rwl-login-' . $major . '.' . $minor . '.php' );
-
-				} else {
-
-					require_once( $this->path() . 'rwl-login-3.9.php' );
-
-				}
+				require_once $this->path() . 'rwl-login.php';
 
 				die;
 
