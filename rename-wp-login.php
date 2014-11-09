@@ -442,7 +442,7 @@ if ( defined( 'ABSPATH' )
 				&& ! is_user_logged_in()
 				&& ! defined( 'DOING_AJAX' ) ) {
 
-				wp_die( __( 'You must log in to access the admin area.' ) );
+				wp_die( __( 'You must <a href="'.$this->new_login_url().'">log in</a> to access the admin area.' ) );
 
 			}
 
