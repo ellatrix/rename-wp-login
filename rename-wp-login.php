@@ -1,12 +1,12 @@
 <?php
 
 /*
-Plugin Name: Rename wp-login.php
+Plugin Name: Rename wp-login.php (unmaintained)
 Plugin URI: http://wordpress.org/plugins/rename-wp-login/
-Description: Change wp-login.php to whatever you want. It can also prevent a lot of brute force attacks.
+Description: Change wp-login.php to whatever you want.
 Author: avryl
 Author URI: http://profiles.wordpress.org/avryl/
-Version: 2.4
+Version: 2.5.1
 Text Domain: rename-wp-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -340,7 +340,7 @@ if ( defined( 'ABSPATH' )
 
 		public function admin_notices() {
 
-			global $pagenow, $cache_rejected_uri;
+			global $pagenow;
 
 			$out = '';
 
@@ -348,33 +348,9 @@ if ( defined( 'ABSPATH' )
 				&& $pagenow === 'options-permalink.php'
 				&& isset( $_GET['settings-updated'] ) ) {
 
-				$out .= '<div class="updated"><p>Your login page is now here: <strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>. Bookmark this page!</p></div>';
+				echo '<div class="updated"><p>Your login page is now here: <strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>. Bookmark this page!</p></div>';
 
 			}
-
-			if ( current_user_can( 'manage_options' )
-				&& function_exists( 'w3_instance' )
-				&& ( $w3tc = w3_instance( 'W3_Config' ) )
-				&& ( $w3tc = $w3tc->get_array( 'pgcache.reject.uri' ) )
-				&& ! in_array( $this->new_login_slug(), $w3tc ) ) {
-
-				$admin_url = admin_url( 'admin.php?page=w3tc_pgcache#pgcache_reject_uri' );
-
-				$out .= '<div class="update-nag"><strong>W3 Total Cache</strong> is enabled on your website. To make sure <strong>Rename wp-login.php</strong> works correctly, you should add <strong>' . $this->new_login_slug() . '</strong> to <a href="' . $admin_url . '">Never cache the following pages</a>. This notice will disappear once you’ve done that correctly.</div>';
-
-			}
-
-			if ( current_user_can( 'manage_options' )
-				&& is_array( $cache_rejected_uri )
-				&& ! in_array( $this->new_login_slug(), $cache_rejected_uri ) ) {
-
-				$admin_url = is_network_admin() ? network_admin_url( 'settings.php?page=wpsupercache&tab=settings#rejecturi' ) : admin_url( 'options-general.php?page=wpsupercache&tab=settings#rejecturi' );
-
-				$out .= '<div class="update-nag"><strong>WP Super Cache</strong> is enabled on your website. To make sure <strong>Rename wp-login.php</strong> works correctly, you should add <strong>' . $this->new_login_slug() . '</strong> to <a href="' . $admin_url . '">Rejected URIs</a>. This notice will disappear once you’ve done that correctly.</div>';
-
-			}
-
-			echo $out;
 
 		}
 
@@ -489,7 +465,9 @@ if ( defined( 'ABSPATH' )
 
 			elseif ( $pagenow === 'wp-login.php' ) {
 
-				require_once $this->path() . 'rwl-login.php';
+				global $error, $interim_login, $action, $user_login;
+
+				@require_once ABSPATH . 'wp-login.php';
 
 				die;
 
