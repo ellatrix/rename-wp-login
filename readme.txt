@@ -1,6 +1,6 @@
 === WPS Hide Login ===
 
-Contributors: Remy Perona, WPServeur
+Contributors: Tabrisrp, WPServeur
 Tags: rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.1
 Tested up to: 4.2
@@ -55,4 +55,4 @@ On a multisite install the `whl_page` option will be in the sitemeta table, if t
 
 = 1.0 =
 
-* Initial version. This is a fork of the Rename wp-login.php plugin, which is unmaintained https://wordpress.org/plugins/rename-wp-login/. All previous changelog can be found there.
+* Initial version. This is a fork of the Rename wp-login.php plugin, which is unmaintained https://wordpress.org/plugins/rename-wp-login/. All previous changelogs can be found there.

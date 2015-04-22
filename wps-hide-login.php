@@ -2,8 +2,8 @@
 
 /*
 Plugin Name: WPS Hide Login
-Plugin URI: 
-Description: Change your login url and remove access to wp-login.php page | Change votre url de connexion et supprime l'accès à la page wp-login.php (sécurité augmenté)
+Plugin URI: https://github.com/Tabrisrp/wps-hide-login
+Description: Change your login url and remove access to wp-login.php page | Change votre url de connexion et supprime l'accès à la page wp-login.php (sécurité augmentée)
 Author: WPServeur
 Author URI: http://profiles.wordpress.org/tabrisrp/
 Version: 1.0
@@ -91,9 +91,7 @@ if ( defined( 'ABSPATH' )
 
 				return $this->user_trailingslashit( home_url( '/', $scheme ) . $this->new_login_slug() );
 
-			}
-
-			else {
+			} else {
 
 				return home_url( '/', $scheme ) . '?' . $this->new_login_slug();
 
@@ -115,7 +113,7 @@ if ( defined( 'ABSPATH' )
 			}
 
 			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
-			register_uninstall_hook( $this->basename(), array( 'WPS_Hide_Login', 'uninstall' ) );
+			register_uninstall_hook( $this->basename(), array( $this, 'uninstall' ) );
 
 			add_action( 'admin_init', array( $this, 'admin_init' ) );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
@@ -192,9 +190,7 @@ if ( defined( 'ABSPATH' )
 
 				delete_site_option( 'whl_page' );
 
-			}
-
-			else {
+			} else {
 
 				delete_option( 'whl_page' );
 
@@ -262,9 +258,7 @@ if ( defined( 'ABSPATH' )
 
 						delete_option( 'whl_page' );
 
-					}
-
-					else {
+					} else {
 
 						update_option( 'whl_page', $whl_page );
 
@@ -284,9 +278,7 @@ if ( defined( 'ABSPATH' )
 
 					$redirect = network_admin_url( 'settings.php#whl-page-input' );
 
-				}
-
-				else {
+				} else {
 
 					$redirect = admin_url( 'options-permalink.php#whl-page-input' );
 
@@ -329,9 +321,7 @@ if ( defined( 'ABSPATH' )
 
 				echo '<code>' . trailingslashit( home_url() ) . '</code> <input id="whl-page-input" type="text" name="whl_page" value="' . $this->new_login_slug()  . '">' . ( $this->use_trailing_slashes() ? ' <code>/</code>' : '' );
 
-			}
-
-			else {
+			} else {
 
 				echo '<code>' . trailingslashit( home_url() ) . '?</code> <input id="whl-page-input" type="text" name="whl_page" value="' . $this->new_login_slug()  . '">';
 
@@ -362,9 +352,7 @@ if ( defined( 'ABSPATH' )
 
 				array_unshift( $links, '<a href="' . network_admin_url( 'settings.php#whl-page-input' ) . '">' . __( 'Settings', 'wps-hide-login' ) . '</a>' );
 
-			}
-
-			elseif ( ! is_network_admin() ) {
+			} elseif ( ! is_network_admin() ) {
 
 				array_unshift( $links, '<a href="' . admin_url( 'options-permalink.php#whl-page-input' ) . '">' . __( 'Settings', 'wps-hide-login' ) . '</a>' );
 
@@ -398,9 +386,7 @@ if ( defined( 'ABSPATH' )
 
 				$pagenow = 'index.php';
 
-			}
-
-			elseif ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' )
+			} elseif ( untrailingslashit( $request['path'] ) === home_url( $this->new_login_slug(), 'relative' )
 				|| ( ! get_option( 'permalink_structure' )
 					&& isset( $_GET[$this->new_login_slug()] )
 					&& empty( $_GET[$this->new_login_slug()] ) ) ) {
@@ -419,8 +405,10 @@ if ( defined( 'ABSPATH' )
 				&& ! is_user_logged_in()
 				&& ! defined( 'DOING_AJAX' ) ) {
 
-				wp_die( __( 'You must log in to access the admin area.', 'wps-hide-login' ) );
-
+				status_header(404);
+                nocache_headers();
+                include( get_404_template() );
+                exit;
 			}
 
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
@@ -434,9 +422,7 @@ if ( defined( 'ABSPATH' )
 
 				die;
 
-			}
-
-			elseif ( $this->wp_login_php ) {
+			} elseif ( $this->wp_login_php ) {
 
 				if ( ( $referer = wp_get_referer() )
 					&& strpos( $referer, 'wp-activate.php' ) !== false
@@ -462,9 +448,7 @@ if ( defined( 'ABSPATH' )
 
 				$this->wp_template_loader();
 
-			}
-
-			elseif ( $pagenow === 'wp-login.php' ) {
+			} elseif ( $pagenow === 'wp-login.php' ) {
 
 				global $error, $interim_login, $action, $user_login;
 
@@ -512,9 +496,7 @@ if ( defined( 'ABSPATH' )
 
 					$url = add_query_arg( $args, $this->new_login_url( $scheme ) );
 
-				}
-
-				else {
+				} else {
 
 					$url = $this->new_login_url( $scheme );
 
