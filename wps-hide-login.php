@@ -115,11 +115,30 @@ if ( defined( 'ABSPATH' )
 				return;
 			}
 
-			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
-
-			if ( is_multisite() && ! function_exists( 'is_plugin_active_for_network' ) ) {
+            if ( is_multisite() && ! function_exists( 'is_plugin_active_for_network' ) ) {
                 require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+                
 			}
+
+            if ( is_plugin_active_for_network( 'rename-wp-login/rename-wp-login.php' ) ) {
+                deactivate_plugins( plugin_basename( __FILE__ ) );
+                add_action( 'network_admin_notices', array( $this, 'admin_notices_plugin_conflict' ) );
+                if ( isset( $_GET['activate'] ) ) {
+                    unset( $_GET['activate'] );
+                }
+                return;
+            }
+
+            if ( is_plugin_active( 'rename-wp-login/rename-wp-login.php' ) ) {
+                deactivate_plugins( plugin_basename( __FILE__ ) );
+                add_action( 'admin_notices', array( $this, 'admin_notices_plugin_conflict' ) );
+                if ( isset( $_GET['activate'] ) ) {
+                    unset( $_GET['activate'] );
+                }
+                return;
+            }
+
+			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
 
 			if ( is_multisite() && is_plugin_active_for_network( $this->basename() ) ) {
                 add_action( 'wpmu_options', array( $this, 'wpmu_options' ) );
@@ -128,9 +147,9 @@ if ( defined( 'ABSPATH' )
 				add_filter( 'network_admin_plugin_action_links_' . $this->basename(), array( $this, 'plugin_action_links' ) );
 			}
 
+            add_action( 'admin_init', array( $this, 'admin_init' ) );
             add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 1 );
 			add_action( 'plugins_loaded', array( $this, 'whl_load_textdomain' ), 9 );
-			add_action( 'admin_init', array( $this, 'admin_init' ) );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 			add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
 			add_action( 'wp_loaded', array( $this, 'wp_loaded' ) );
@@ -164,12 +183,18 @@ if ( defined( 'ABSPATH' )
 
 		public function admin_notices_incompatible() {
 
-			echo '<div class="error"><p>' . __( 'Please upgrade to the latest version of WordPress to activate', 'wps-hide-login') . ' <strong>' . __( 'WPS Hide Login', 'wps-hide-login') . '</strong>.</p></div>';
+			echo '<div class="error notice is-dismissible"><p>' . __( 'Please upgrade to the latest version of WordPress to activate', 'wps-hide-login') . ' <strong>' . __( 'WPS Hide Login', 'wps-hide-login') . '</strong>.</p></div>';
+
+		}
+
+        public function admin_notices_plugin_conflict() {
+
+			echo '<div class="error notice is-dismissible"><p>' . __( 'WPS Hide Login could not be activated because you already have Rename wp-login.php active. Please uninstall rename wp-login.php to use WPS Hide Login', 'wps-hide-login') . '</p></div>';
 
 		}
 
 		public function activate() {
-
+                
 			add_option( 'whl_redirect', '1' );
 
 			delete_option( 'whl_admin' );
