@@ -4,7 +4,7 @@ Contributors: Tabrisrp, WPServeur
 Tags: rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.1
 Tested up to: 4.2
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ Either go to your MySQL database and look for the value of `whl_page` in the opt
 On a multisite install the `whl_page` option will be in the sitemeta table, if there is no such option in the options table.
 
 == Changelog ==
+
+= 1.1.1 =
+* Check for Rename wp-login.php activation before activating WPS Hide Login to prevent conflict
 
 = 1.1 =
 * Fix : CSRF security issue when saving option value in single site and multisite mode. Thanks to @Secupress

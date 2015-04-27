@@ -5,7 +5,7 @@ Plugin URI: https://github.com/Tabrisrp/wps-hide-login
 Description: Change your login url and remove access to wp-login.php page | Change votre url de connexion et supprime l'accès à la page wp-login.php (sécurité augmentée)
 Author: WPServeur
 Author URI: http://profiles.wordpress.org/tabrisrp/
-Version: 1.1
+Version: 1.1.1
 Text Domain: wps-hide-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -106,6 +106,7 @@ if ( defined( 'ABSPATH' )
 		}
 
 		public function __construct() {
+            add_action( 'plugins_loaded', array( $this, 'whl_load_textdomain' ), 9 );
 
 			global $wp_version;
 
@@ -115,7 +116,8 @@ if ( defined( 'ABSPATH' )
 				return;
 			}
 
-            if ( is_multisite() && ! function_exists( 'is_plugin_active_for_network' ) ) {
+
+            if ( is_multisite() && ! function_exists( 'is_plugin_active_for_network' ) || !function_exists( 'is_plugin_active' ) ) {
                 require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
                 
 			}
@@ -149,7 +151,6 @@ if ( defined( 'ABSPATH' )
 
             add_action( 'admin_init', array( $this, 'admin_init' ) );
             add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 1 );
-			add_action( 'plugins_loaded', array( $this, 'whl_load_textdomain' ), 9 );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 			add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
 			add_action( 'wp_loaded', array( $this, 'wp_loaded' ) );
