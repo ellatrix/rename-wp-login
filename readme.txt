@@ -1,10 +1,10 @@
 === WPS Hide Login ===
 
-Contributors: Tabrisrp, WPServeur
+Contributors: tabrisrp, WPServeur
 Tags: rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.1
 Tested up to: 4.2
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,10 @@ Si vous utilisez un plugin de cache, vous devrez ajouter la nouvelle URL de conn
 4. The page will redirect you to the settings. Change your login url there.
 5. You can change this option any time you want, just go back to Settings › General › WPS Hide Login.
 
+== Screenshots ==
+1. Setting on single site installation
+2. Setting for network wide
+
 == Frequently Asked Questions ==
 
 = I forgot my login url!  =
@@ -64,6 +68,9 @@ Either go to your MySQL database and look for the value of `whl_page` in the opt
 On a multisite install the `whl_page` option will be in the sitemeta table, if there is no such option in the options table.
 
 == Changelog ==
+
+= 1.1.2 =
+* Modified priority on hooks to fix a problem with some configurations
 
 = 1.1.1 =
 * Check for Rename wp-login.php activation before activating WPS Hide Login to prevent conflict
