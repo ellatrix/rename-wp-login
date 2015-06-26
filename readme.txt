@@ -3,7 +3,7 @@
 Contributors: tabrisrp, WPServeur
 Tags: rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.1
-Tested up to: 4.2
+Tested up to: 4.2.2
 Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -29,7 +29,9 @@ Obviously it doesn’t work with plugins that *hardcoded* wp-login.php.
 
 Works with multisite, but not tested with subdomains. Activating it for a network allows you to set a networkwide default. Individual sites can still rename their login page to something else.
 
-If you’re using a **page caching plugin** you should add the slug of the new login url to the list of pages not to cache. For W3 Total Cache and WP Super Cache this plugin will give you a message with a link to the field you should update.
+If you’re using a **page caching plugin** other than WP Rocket, you should add the slug of the new login url to the list of pages not to cache. WP Rocket is already fully compatible with the plugin.
+
+For W3 Total Cache and WP Super Cache this plugin will give you a message with a link to the field you should update.
 
 = GitHub =
 
@@ -42,10 +44,10 @@ Il ne renomme pas ou ne modifie pas de fichiers dans le noyau, et n'ajoute pas d
 
 La page wp-login.php et le répertoire wp-admin deviennent donc inaccessibles, vous devrez donc bookmarker ou vous rappeler l'url. Désactiver ce plugin ramène tout simplement votre site à son état initial.
 
-Compatibilité
+= Compatibilité =
 Nécessite WordPress 4.1 ou supérieur.
 
-Si vous utilisez un plugin de cache, vous devrez ajouter la nouvelle URL de connexion à la liste des pages à ne pas mettre en cache.
+Si vous utilisez un plugin de cache autre que WP Rocket, vous devrez ajouter la nouvelle URL de connexion à la liste des pages à ne pas mettre en cache.
 
 == Installation ==
 
@@ -66,6 +68,11 @@ Si vous utilisez un plugin de cache, vous devrez ajouter la nouvelle URL de conn
 Either go to your MySQL database and look for the value of `whl_page` in the options table, or remove the `wps-hide-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
 On a multisite install the `whl_page` option will be in the sitemeta table, if there is no such option in the options table.
+
+= I'm locked out! =
+This case can come from plugins modifying your .htaccess files to add or change rules, or from an old WordPress MU configuration not updated since Multisite was added.
+
+First step is to check your .htaccess file and compare it to a regular one, to see if the problem comes from it.
 
 == Changelog ==
 

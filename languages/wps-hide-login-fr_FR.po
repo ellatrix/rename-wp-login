@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WPS Hide Login 1.0\n"
-"POT-Creation-Date: 2015-04-27 10:27+0100\n"
-"PO-Revision-Date: 2015-04-27 10:28+0100\n"
+"POT-Creation-Date: 2015-06-26 14:24+0100\n"
+"PO-Revision-Date: 2015-06-26 14:24+0100\n"
 "Last-Translator: Rémy Perona <remperona@gmail.com>\n"
 "Language-Team: Rémy Perona <remperona@gmail.com>\n"
 "Language: fr\n"
@@ -17,16 +17,16 @@ msgstr ""
 "X-Poedit-SearchPath-0: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-"
 "login\n"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:186
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:187
 msgid "Please upgrade to the latest version of WordPress to activate"
 msgstr "Veuillez mettre à jour WordPress dans sa dernière version pour activer"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:186
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:208
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:187
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:209
 msgid "WPS Hide Login"
 msgstr "WPS Hide Login"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:192
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:193
 msgid ""
 "WPS Hide Login could not be activated because you already have Rename wp-login.php "
 "active. Please uninstall rename wp-login.php to use WPS Hide Login"
@@ -34,7 +34,7 @@ msgstr ""
 "WPS Hide Login n'a pas pu être activé car vous avez déjà Rename wp-login.php actif. "
 "Veuillez désinstaller Rename wp-login.php pour utiliser WPS Hide Login"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:209
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:210
 msgid ""
 "This option allows you to set a networkwide default, which can be overridden by "
 "individual sites. Simply go to to the site’s permalink settings to change the url."
@@ -43,29 +43,33 @@ msgstr ""
 "ensuite être remplacé pour chaque site individuellement. Allez simplement dans les "
 "réglages des permaliens du site pour changer l'url."
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:210
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:286
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:211
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:287
 #, php-format
-msgid "Need help? Try the <a href=\"%s\" target=\"_blank\">support forum</a>."
+msgid ""
+"Need help? Try the <a href=\"%1$s\" target=\"_blank\">support forum</a>. This "
+"plugin is kindly brought to you by <a href=\"%2$s\" target=\"_blank\">WPServeur</a>."
 msgstr ""
-"Besoin d'aide ? Essayez le <a href=\"%s\" target=\"_blank\">forum d'assistance</a>."
+"Besoin d'aide ? Essayez le <a href=\"%1$s\" target=\"_blank\">forum de support</a>. "
+"Cette extension vous est gentiment proposée par <a href=\"%2$s\" target=\"_blank"
+"\">WPServeur</a>."
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:213
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:214
 msgid "Networkwide default"
 msgstr "Réglage par défaut du réseau"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:247
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:248
 msgid "Login url"
 msgstr "URL de connexion"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:294
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:295
 #, php-format
 msgid "To set a networkwide default, go to <a href=\"%s\">Network Settings</a>."
 msgstr ""
 "Pour définir un réglage par défaut pour le réseau, allez aux <a href=\"%s"
 "\">réglages du réseaux</a>."
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:326
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:327
 #, php-format
 msgid ""
 "Your login page is now here: <strong><a href=\"%1$s\">%2$s</a></strong>. Bookmark "
@@ -74,14 +78,19 @@ msgstr ""
 "Votre page de connexion est maintenant ici : <strong><a href=\"%1$s\">%2$s</a></"
 "strong>. Mettez-la en favori !"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:337
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:341
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:338
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:342
 msgid "Settings"
 msgstr "Réglages"
 
-#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:357
+#: /Users/Yui/Sites/wordpress/wp-content/plugins/wps-hide-login/wps-hide-login.php:358
 msgid "This feature is not enabled."
 msgstr "Cette fonctionnalité n'est pas activée."
+
+#~ msgid "Need help? Try the <a href=\"%s\" target=\"_blank\">support forum</a>."
+#~ msgstr ""
+#~ "Besoin d'aide ? Essayez le <a href=\"%s\" target=\"_blank\">forum d'assistance</"
+#~ "a>."
 
 #~ msgid "Rename wp-login.php"
 #~ msgstr "Rename wp-login.php"
