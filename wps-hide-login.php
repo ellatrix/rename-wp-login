@@ -392,7 +392,9 @@ if ( defined( 'ABSPATH' )
 
 				status_header(404);
                 nocache_headers();
-                include( get_404_template() );
+                if ( get_404_template() ) {
+                    include( get_404_template() );
+                }
                 exit;
 			}
 

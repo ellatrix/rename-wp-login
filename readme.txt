@@ -3,8 +3,8 @@
 Contributors: tabrisrp, WPServeur
 Tags: rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.1
-Tested up to: 4.2.2
-Stable tag: 1.1.2
+Tested up to: 4.4
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,9 @@ This case can come from plugins modifying your .htaccess files to add or change 
 First step is to check your .htaccess file and compare it to a regular one, to see if the problem comes from it.
 
 == Changelog ==
+
+= 1.1.3 =
+* Fix: issue if no 404 template in active theme directory
 
 = 1.1.2 =
 * Modified priority on hooks to fix a problem with some configurations
