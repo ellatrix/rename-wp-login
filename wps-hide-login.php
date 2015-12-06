@@ -5,7 +5,7 @@ Plugin URI: https://github.com/Tabrisrp/wps-hide-login
 Description: Change your login url and remove access to wp-login.php page | Change votre url de connexion et supprime l'accès à la page wp-login.php (sécurité augmentée)
 Author: WPServeur
 Author URI: http://profiles.wordpress.org/tabrisrp/
-Version: 1.1.2
+Version: 1.1.3
 Text Domain: wps-hide-login
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
