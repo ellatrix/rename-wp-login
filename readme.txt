@@ -1,10 +1,10 @@
-=== Rename wp-login.php (unmaintained) ===
+=== WPS Hide Login ===
 
-Contributors: avryl
+Contributors: tabrisrp, WPServeur
 Tags: rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.1
-Tested up to: 4.1
-Stable tag: 2.5.1
+Tested up to: 4.4
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,13 +12,7 @@ Change wp-login.php to anything you want.
 
 == Description ==
 
-***
-
-I don't actively work on this plugin anymore, so use at your own risk.
-
-***
-
-*Rename wp-login.php* is a very light plugin that lets you easily and safely change wp-login.php to anything you want. It doesn’t literally rename or change files in core, nor does it add rewrite rules. It simply intercepts page requests and works on any WordPress website. The wp-admin directory and wp-login.php page become inaccessible, so you should bookmark or remember the url. Deactivating this plugin brings your site back exactly to the state it was before.
+*WPS Hide Login* is a very light plugin that lets you easily and safely change the url of the login form to anything you want. It doesn’t literally rename or change files in core, nor does it add rewrite rules. It simply intercepts page requests and works on any WordPress website. The wp-admin directory and wp-login.php page become inaccessible, so you should bookmark or remember the url. Deactivating this plugin brings your site back exactly to the state it was before.
 
 = Compatibility =
 
@@ -35,121 +29,69 @@ Obviously it doesn’t work with plugins that *hardcoded* wp-login.php.
 
 Works with multisite, but not tested with subdomains. Activating it for a network allows you to set a networkwide default. Individual sites can still rename their login page to something else.
 
-If you’re using a **page caching plugin** you should add the slug of the new login url to the list of pages not to cache. For W3 Total Cache and WP Super Cache this plugin will give you a message with a link to the field you should update.
+If you’re using a **page caching plugin** other than WP Rocket, you should add the slug of the new login url to the list of pages not to cache. WP Rocket is already fully compatible with the plugin.
+
+For W3 Total Cache and WP Super Cache this plugin will give you a message with a link to the field you should update.
 
 = GitHub =
 
-https://github.com/avryl/rename-wp-login
+https://github.com/tabrisrp/wps-hide-login
+
+= Description Française =
+WPS Hide Login est un plugin très léger qui vous permet facilement et en toute sécurité de modifier l'URL de connexion en ce que vous voulez.
+
+Il ne renomme pas ou ne modifie pas de fichiers dans le noyau, et n'ajoute pas de règles de réécriture.  Il intercepte tout simplement les demandes de page et fonctionne sur n'importe quel site WordPress.
+
+La page wp-login.php et le répertoire wp-admin deviennent donc inaccessibles, vous devrez donc bookmarker ou vous rappeler l'url. Désactiver ce plugin ramène tout simplement votre site à son état initial.
+
+= Compatibilité =
+Nécessite WordPress 4.1 ou supérieur.
+
+Si vous utilisez un plugin de cache autre que WP Rocket, vous devrez ajouter la nouvelle URL de connexion à la liste des pages à ne pas mettre en cache.
 
 == Installation ==
 
 1. Go to Plugins › Add New.
-2. Search for *Rename wp-login.php*.
+2. Search for *WPS Hide Login*.
 3. Look for this plugin, download and activate it.
-4. The page will redirect you to the settings. Rename wp-login.php there.
-5. You can change this option any time you want, just go back to Settings › Permalinks › Rename wp-login.php.
+4. The page will redirect you to the settings. Change your login url there.
+5. You can change this option any time you want, just go back to Settings › General › WPS Hide Login.
+
+== Screenshots ==
+1. Setting on single site installation
+2. Setting for network wide
 
 == Frequently Asked Questions ==
 
 = I forgot my login url!  =
 
-Either go to your MySQL database and look for the value of `rwl_page` in the options table, or remove the `rename-wp-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
+Either go to your MySQL database and look for the value of `whl_page` in the options table, or remove the `wps-hide-login` folder from your `plugins` folder, log in through wp-login.php and reinstall the plugin.
 
-On a multisite install the `rwl_page` option will be in the sitemeta table, if there is no such option in the options table.
+On a multisite install the `whl_page` option will be in the sitemeta table, if there is no such option in the options table.
+
+= I'm locked out! =
+This case can come from plugins modifying your .htaccess files to add or change rules, or from an old WordPress MU configuration not updated since Multisite was added.
+
+First step is to check your .htaccess file and compare it to a regular one, to see if the problem comes from it.
 
 == Changelog ==
 
-= 2.5 =
+= 1.1.3 =
+* Fix: issue if no 404 template in active theme directory
 
-* Use wp-login.php instead of copying the file.
-* Don't add notices for W3 Total Cache and WP Super Cache.
+= 1.1.2 =
+* Modified priority on hooks to fix a problem with some configurations
 
-= 2.4 =
-
-* WordPress 4.0 compatible.
-
-= 2.3 =
-
-* WordPress 3.9 compatible.
-* Fix issue where the slug reverts to default when saving the permalink structure.
-
-= 2.2.4 =
-
-* Fixed SSL issues.
-* Set REQUEST_URI back.
-* Check if wp-login.php functions exist to avoid future fatal errors.
-
-= 2.2.3 =
-
-* Fixed URL filters.
-
-= 2.2 =
-
-* Fixed issue where requests redirect to the new login page.
-* Trailing slash based on the permalink structure.
-
-= 2.1 =
-
-* Works now with non-pretty permalinks!
-* Gives a message when using W3 Total Cache or WP Super Cache to update options.
-
-= 2.0.1 =
-
-* Prevents pretty redirects such as /login and /admin.
-* Simplifies some code.
-* Forces login page with trailing slash.
-* Replaces a wp_redirect with wp_safe_redirect.
-* Shows error message in the network admin if permalinks are not enabled for the main site.
-
-= 2.0 =
-
-* This plugin can now be activated for a network and a networkwide default can be set.
-* The plugin now hooks in after init to make sure any customisations to the login form are hooked in before it.
-* Links should now be fixed when SSL is enabled.
-
-= 1.9 =
-
-* wp-admin will now have a `wp_die()` message instead of a 404 template because this caused problems.
-* Minimum version is now 3.8.
-* Added updates from wp-login.php in 3.8.
-
-= 1.8 =
-
-* OOP PHP.
-* Requires WordPress 3.7 or higher.
-* MultiViews compatible.
-
-= 1.7 =
-
-* Made compatible with WordPress 3.7.
-
-= 1.6 =
-
-* Fixed the login link when `site_url()` ≠ `home_url()`.
-* Added a [mirror](https://github.com/avryl/rename-wp-login) on GitHub.
-
-= 1.5 =
-
-* Made [User Switching](http://wordpress.org/plugins/user-switching/) compatible.
-
-= 1.4 =
-
-* Faster page load.
-* Fixed 404 error for permalink structures with a prefixed path. “Almost pretty” permalinks work now too.
-* Code clean-up.
-
-= 1.3 =
-
-* Prevents the plugin from working when there is no permalink structure.
-
-= 1.2 =
-
-* Fixed status code custom login page.
+= 1.1.1 =
+* Check for Rename wp-login.php activation before activating WPS Hide Login to prevent conflict
 
 = 1.1 =
-
-* Blocked access to wp-admin to prevent a redirect the the new login page.
+* Fix : CSRF security issue when saving option value in single site and multisite mode. Thanks to @Secupress
+* Improvement : changed option location from permalinks to general, because register_setting doesn't work on permalinks page.
+* Improvement : notice after saving is now dismissible (compatibility with WP 4.2)
+* Uninstall function is now in it's separate file uninstall.php
+* Some cleaning and reordering of code
 
 = 1.0 =
 
-* Initial version.
+* Initial version. This is a fork of the Rename wp-login.php plugin, which is unmaintained https://wordpress.org/plugins/rename-wp-login/. All previous changelogs can be found there.
