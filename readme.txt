@@ -1,12 +1,11 @@
-=== Rename wp-login.php (unmaintained) ===
+=== Rename wp-login.php (unsupported) ===
 
-Contributors: avryl
-Tags: rename, login, wp-login, wp-login.php, custom login url
-Requires at least: 4.1
-Tested up to: 4.1
-Stable tag: 2.5.1
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Contributors:      iseulde
+Tags:              rename, login, wp-login, wp-login.php, custom login url
+Requires at least: 4.4
+Tested up to:      4.4
+Stable tag:        2.5.3
+License:           GPL-2.0+
 
 Change wp-login.php to anything you want.
 
