@@ -1,4 +1,4 @@
-=== Rename wp-login.php (unsupported) ===
+=== Rename wp-login.php ===
 
 Contributors:      iseulde
 Tags:              rename, login, wp-login, wp-login.php, custom login url
@@ -11,11 +11,7 @@ Change wp-login.php to anything you want.
 
 == Description ==
 
-***
-
-I don't actively work on this plugin anymore, so use at your own risk.
-
-***
+**I don't offer support through the support forum. Use [GitHub](https://github.com/iseulde/rename-wp-login) instead.**
 
 *Rename wp-login.php* is a very light plugin that lets you easily and safely change wp-login.php to anything you want. It doesn’t literally rename or change files in core, nor does it add rewrite rules. It simply intercepts page requests and works on any WordPress website. The wp-admin directory and wp-login.php page become inaccessible, so you should bookmark or remember the url. Deactivating this plugin brings your site back exactly to the state it was before.
 
@@ -35,10 +31,6 @@ Obviously it doesn’t work with plugins that *hardcoded* wp-login.php.
 Works with multisite, but not tested with subdomains. Activating it for a network allows you to set a networkwide default. Individual sites can still rename their login page to something else.
 
 If you’re using a **page caching plugin** you should add the slug of the new login url to the list of pages not to cache. For W3 Total Cache and WP Super Cache this plugin will give you a message with a link to the field you should update.
-
-= GitHub =
-
-https://github.com/avryl/rename-wp-login
 
 == Installation ==
 
