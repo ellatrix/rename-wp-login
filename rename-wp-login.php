@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Plugin Name: Rename wp-login.php (unsupported)
+ * Plugin Name: Rename wp-login.php
  * Plugin URI:  http://wordpress.org/plugins/rename-wp-login/
  * Description: Change wp-login.php to whatever you want.
  * Version:     2.5.3
