@@ -58,6 +58,10 @@ On a multisite install the `rwl_page` option will be in the sitemeta table, if t
 
 == Changelog ==
 
+= 2.5.4 =
+
+* Added i18n support.
+
 = 2.5 =
 
 * Use wp-login.php instead of copying the file.
