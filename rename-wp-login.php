@@ -2,11 +2,11 @@
 
 /*
  * Plugin Name: Rename wp-login.php
- * Plugin URI:  http://wordpress.org/plugins/rename-wp-login/
+ * Plugin URI:  https://wordpress.org/plugins/rename-wp-login/
  * Description: Change wp-login.php to whatever you want.
  * Version:     2.5.3
  * Author:      iseulde
- * Author URI:  http://profiles.wordpress.org/iseulde/
+ * Author URI:  https://profiles.wordpress.org/iseulde/
  * Text Domain: rename-wp-login
  * Domain Path:
  * Network:
