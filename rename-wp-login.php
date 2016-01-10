@@ -7,7 +7,7 @@
  * Version:     2.5.3
  * Author:      iseulde
  * Author URI:  http://profiles.wordpress.org/iseulde/
- * Text Domain:
+ * Text Domain: rename-wp-login
  * Domain Path:
  * Network:
  * License:     GPL-2.0+
@@ -118,7 +118,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 
 		public function admin_notices_incompatible() {
-			echo '<div class="error"><p>Please upgrade to the latest version of WordPress to activate <strong>Rename wp-login.php</strong>.</p></div>';
+			echo '<div class="error"><p>' . sprintf( __( 'Please upgrade to the latest version of WordPress to activate %s.', 'rename-wp-login' ), '<strong>' . __( 'Rename wp-login.php', 'rename-wp-login' ) . '</strong>' ) . '</p></div>';
 		}
 
 		public function activate() {
@@ -150,11 +150,11 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		public function wpmu_options() {
 			$out = '';
 
-			$out .= '<h3>Rename wp-login.php</h3>';
-			$out .= '<p>This option allows you to set a networkwide default, which can be overridden by individual sites. Simply go to to the site’s permalink settings to change the url.</p>';
+			$out .= '<h3>' . __( 'Rename wp-login.php', 'rename-wp-login' ) . '</h3>';
+			$out .= '<p>' . __( 'This option allows you to set a networkwide default, which can be overridden by individual sites. Simply go to to the site’s permalink settings to change the url.', 'rename-wp-login' ) . '</p>';
 			$out .= '<table class="form-table">';
 				$out .= '<tr valign="top">';
-					$out .= '<th scope="row">Networkwide default</th>';
+					$out .= '<th scope="row">' . __( 'Networkwide default', 'rename-wp-login' ) . '</th>';
 					$out .= '<td><input id="rwl-page-input" type="text" name="rwl_page" value="' . get_site_option( 'rwl_page', 'login' )  . '"></td>';
 				$out .= '</tr>';
 			$out .= '</table>';
@@ -177,14 +177,14 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 			add_settings_section(
 				'rename-wp-login-section',
-				'Rename wp-login.php',
+				__( 'Rename wp-login.php', 'rename-wp-login' ),
 				array( $this, 'rwl_section_desc' ),
 				'permalink'
 			);
 
 			add_settings_field(
 				'rwl-page',
-				'<label for="rwl-page">Login url</label>',
+				'<label for="rwl-page">' . __( 'Login url', 'rename-wp-login' ) . '</label>',
 				array( $this, 'rwl_page_input' ),
 				'permalink',
 				'rename-wp-login-section'
@@ -223,7 +223,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			$out = '';
 
 			if ( is_multisite() && is_super_admin() && is_plugin_active_for_network( $this->basename() ) ) {
-				$out .= '<p>To set a networkwide default, go to <a href="' . network_admin_url( 'settings.php#rwl-page-input' ) . '">Network Settings</a>.</p>';
+				$out .= '<p>' . sprintf( __( 'To set a networkwide default, go to %s.', 'rename-wp-login' ), '<a href="' . network_admin_url( 'settings.php#rwl-page-input' ) . '">' . __( 'Network Settings', 'rename-wp-login' ) . '</a>') . '</p>';
 			}
 
 			echo $out;
@@ -241,15 +241,15 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			global $pagenow;
 
 			if ( ! is_network_admin() && $pagenow === 'options-permalink.php' && isset( $_GET['settings-updated'] ) ) {
-				echo '<div class="updated"><p>Your login page is now here: <strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>. Bookmark this page!</p></div>';
+				echo '<div class="updated"><p>' . sprintf( __( 'Your login page is now here: %s. Bookmark this page!', 'rename-wp-login' ), '<strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>' ) . '</p></div>';
 			}
 		}
 
 		public function plugin_action_links( $links ) {
 			if ( is_network_admin() && is_plugin_active_for_network( $this->basename() ) ) {
-				array_unshift( $links, '<a href="' . network_admin_url( 'settings.php#rwl-page-input' ) . '">Settings</a>' );
+				array_unshift( $links, '<a href="' . network_admin_url( 'settings.php#rwl-page-input' ) . '">' . __( 'Settings' ) . '</a>' );
 			} elseif ( ! is_network_admin() ) {
-				array_unshift( $links, '<a href="' . admin_url( 'options-permalink.php#rwl-page-input' ) . '">Settings</a>' );
+				array_unshift( $links, '<a href="' . admin_url( 'options-permalink.php#rwl-page-input' ) . '">' . __( 'Settings' ) . '</a>' );
 			}
 
 			return $links;
@@ -264,7 +264,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 					strpos( $_SERVER['REQUEST_URI'], 'wp-activate' ) !== false
 				)
 			) {
-				wp_die( __( 'This feature is not enabled.' ) );
+				wp_die( __( 'This feature is not enabled.', 'rename-wp-login' ) );
 			}
 
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
@@ -292,7 +292,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			global $pagenow;
 
 			if ( is_admin() && ! is_user_logged_in() && ! defined( 'DOING_AJAX' ) ) {
-				wp_die( __( 'You must log in to access the admin area.' ) );
+				wp_die( __( 'You must log in to access the admin area.', 'rename-wp-login' ) );
 			}
 
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
