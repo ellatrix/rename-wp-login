@@ -257,7 +257,9 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function plugins_loaded() {
 			global $pagenow;
-
+			
+			load_plugin_textdomain( 'rename-wp-login' );
+			
 			if (
 				! is_multisite() && (
 					strpos( $_SERVER['REQUEST_URI'], 'wp-signup' ) !== false ||
