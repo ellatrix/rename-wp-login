@@ -247,9 +247,9 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function plugin_action_links( $links ) {
 			if ( is_network_admin() && is_plugin_active_for_network( $this->basename() ) ) {
-				array_unshift( $links, '<a href="' . network_admin_url( 'settings.php#rwl-page-input' ) . '">' . __( 'Settings' ) . '</a>' );
+				array_unshift( $links, '<a href="' . network_admin_url( 'settings.php#rwl-page-input' ) . '">' . __( 'Settings', 'rename-wp-login' ) . '</a>' );
 			} elseif ( ! is_network_admin() ) {
-				array_unshift( $links, '<a href="' . admin_url( 'options-permalink.php#rwl-page-input' ) . '">' . __( 'Settings' ) . '</a>' );
+				array_unshift( $links, '<a href="' . admin_url( 'options-permalink.php#rwl-page-input' ) . '">' . __( 'Settings', 'rename-wp-login' ) . '</a>' );
 			}
 
 			return $links;
