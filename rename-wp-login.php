@@ -256,10 +256,9 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 
 		public function plugins_loaded() {
-			// Load translations
-			load_plugin_textdomain( 'rename-wp-login' );
-
 			global $pagenow;
+
+			load_plugin_textdomain( 'rename-wp-login' );
 
 			if (
 				! is_multisite() && (
