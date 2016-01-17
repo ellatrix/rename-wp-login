@@ -4,7 +4,7 @@
  * Plugin Name: Rename wp-login.php
  * Plugin URI:  https://wordpress.org/plugins/rename-wp-login/
  * Description: Change wp-login.php to whatever you want.
- * Version:     2.5.4
+ * Version:     2.5.5
  * Author:      Ella Iseulde Van Dorpe
  * Author URI:  https://iseulde.com
  * Text Domain: rename-wp-login

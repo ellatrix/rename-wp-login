@@ -4,7 +4,7 @@ Contributors:      iseulde, IvanRF
 Tags:              rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.4
 Tested up to:      4.4.1
-Stable tag:        2.5.4
+Stable tag:        2.5.5
 License:           GPL-2.0+
 
 Change wp-login.php to anything you want.
@@ -51,6 +51,10 @@ Either go to your MySQL database and look for the value of `rwl_page` in the opt
 On a multisite install the `rwl_page` option will be in the sitemeta table, if there is no such option in the options table.
 
 == Changelog ==
+
+= 2.5.5 =
+
+Add missing `load_plugin_textdomain`.
 
 = 2.5.4 =
 
