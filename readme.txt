@@ -17,7 +17,7 @@ Change wp-login.php to anything you want.
 
 = Compatibility =
 
-Requires WordPress 4.1 or higher. All login related things such as the registration form, lost password form, login widget and expired sessions just keep working.
+All login related things such as the registration form, lost password form, login widget and expired sessions just keep working.
 
 It’s also compatible with any plugin that hooks in the login form, including
 
