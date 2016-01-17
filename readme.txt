@@ -30,7 +30,7 @@ Obviously it doesn’t work with plugins that *hardcoded* wp-login.php.
 
 Works with multisite, but not tested with subdomains. Activating it for a network allows you to set a networkwide default. Individual sites can still rename their login page to something else.
 
-If you’re using a **page caching plugin** you should add the slug of the new login url to the list of pages not to cache. For W3 Total Cache and WP Super Cache this plugin will give you a message with a link to the field you should update.
+If you’re using a **page caching plugin** you should add the slug of the new login url to the list of pages not to cache.
 
 If you wish, you can block wp-login.php with `.htaccess` from now on.
 
