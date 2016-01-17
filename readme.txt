@@ -54,7 +54,7 @@ On a multisite install the `rwl_page` option will be in the sitemeta table, if t
 
 = 2.5.5 =
 
-Add missing `load_plugin_textdomain`.
+* Add missing `load_plugin_textdomain`.
 
 = 2.5.4 =
 
