@@ -1,6 +1,6 @@
 === Rename wp-login.php ===
 
-Contributors:      iseulde, IvanRF
+Contributors:      iseulde, ivanrf
 Tags:              rename, login, wp-login, wp-login.php, custom login url
 Requires at least: 4.4
 Tested up to:      4.4.1
