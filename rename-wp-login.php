@@ -177,7 +177,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 			add_settings_section(
 				'rename-wp-login-section',
-				_x( 'Rename wp-login.php', 'Text string for options-page', 'rename-wp-login' ),
+				_x( 'Rename wp-login.php', 'Text string for settings page', 'rename-wp-login' ),
 				array( $this, 'rwl_section_desc' ),
 				'permalink'
 			);
