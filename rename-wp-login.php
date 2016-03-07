@@ -76,15 +76,6 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 
 		public function __construct() {
-			global $wp_version;
-
-			if ( version_compare( $wp_version, '4.0-RC1-src', '<' ) ) {
-				add_action( 'admin_notices', array( $this, 'admin_notices_incompatible' ) );
-				add_action( 'network_admin_notices', array( $this, 'admin_notices_incompatible' ) );
-
-				return;
-			}
-
 			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
 			register_uninstall_hook( $this->basename(), array( 'Rename_WP_Login', 'uninstall' ) );
 
@@ -115,10 +106,6 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			add_filter( 'site_option_welcome_email', array( $this, 'welcome_email' ) );
 
 			remove_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
-		}
-
-		public function admin_notices_incompatible() {
-			echo '<div class="error"><p>' . sprintf( __( 'Please upgrade to the latest version of WordPress to activate %s.', 'rename-wp-login' ), '<strong>' . __( 'Rename wp-login.php', 'rename-wp-login' ) . '</strong>' ) . '</p></div>';
 		}
 
 		public function activate() {
