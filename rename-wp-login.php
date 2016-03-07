@@ -110,7 +110,6 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function activate() {
 			add_option( 'rwl_redirect', '1' );
-			delete_option( 'rwl_admin' );
 		}
 
 		public static function uninstall() {
