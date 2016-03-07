@@ -150,7 +150,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		public function wpmu_options() {
 			$out = '';
 
-			$out .= '<h3>' . __( 'Rename wp-login.php', 'rename-wp-login' ) . '</h3>';
+			$out .= '<h3>' . _x( 'Rename wp-login.php', 'Text string for settings page', 'rename-wp-login' ) . '</h3>';
 			$out .= '<p>' . __( 'This option allows you to set a networkwide default, which can be overridden by individual sites. Simply go to to the site’s permalink settings to change the url.', 'rename-wp-login' ) . '</p>';
 			$out .= '<table class="form-table">';
 				$out .= '<tr valign="top">';
@@ -177,7 +177,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 			add_settings_section(
 				'rename-wp-login-section',
-				__( 'Rename wp-login.php', 'rename-wp-login' ),
+				_x( 'Rename wp-login.php', 'Text string for settings page', 'rename-wp-login' ),
 				array( $this, 'rwl_section_desc' ),
 				'permalink'
 			);
