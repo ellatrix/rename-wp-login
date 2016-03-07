@@ -49,7 +49,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				$_SERVER['REQUEST_URI'] = $this->user_trailingslashit( '/wp-login-php/' );
 			}
 
-			require_once( ABSPATH . WPINC . '/template-loader.php' );
+			require_once ABSPATH . WPINC . '/template-loader.php';
 
 			die;
 		}
@@ -84,7 +84,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
 
 			if ( is_multisite() && ! function_exists( 'is_plugin_active_for_network' ) ) {
-				require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+				require_once ABSPATH . '/wp-admin/includes/plugin.php';
 			}
 
 			add_filter( 'plugin_action_links_' . $this->basename(), array( $this, 'plugin_action_links' ) );
@@ -135,18 +135,24 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 
 		public function wpmu_options() {
-			$out = '';
-
-			$out .= '<h3>' . _x( 'Rename wp-login.php', 'Text string for settings page', 'rename-wp-login' ) . '</h3>';
-			$out .= '<p>' . __( 'This option allows you to set a networkwide default, which can be overridden by individual sites. Simply go to to the site’s permalink settings to change the url.', 'rename-wp-login' ) . '</p>';
-			$out .= '<table class="form-table">';
-				$out .= '<tr valign="top">';
-					$out .= '<th scope="row">' . __( 'Networkwide default', 'rename-wp-login' ) . '</th>';
-					$out .= '<td><input id="rwl-page-input" type="text" name="rwl_page" value="' . get_site_option( 'rwl_page', 'login' )  . '"></td>';
-				$out .= '</tr>';
-			$out .= '</table>';
-
-			echo $out;
+			echo (
+				'<h3>' .
+					_x( 'Rename wp-login.php', 'Text string for settings page', 'rename-wp-login' ) .
+				'</h3>' .
+				'<p>' .
+					__( 'This option allows you to set a networkwide default, which can be overridden by individual sites. Simply go to to the site’s permalink settings to change the url.', 'rename-wp-login' ) .
+				'</p>' .
+				'<table class="form-table">' .
+					'<tr valign="top">' .
+						'<th scope="row">' .
+							__( 'Networkwide default', 'rename-wp-login' ) .
+						'</th>' .
+						'<td>' .
+							'<input id="rwl-page-input" type="text" name="rwl_page" value="' . get_site_option( 'rwl_page', 'login' )  . '">' .
+						'</td>' .
+					'</tr>' .
+				'</table>'
+			);
 		}
 
 		public function update_wpmu_options() {
