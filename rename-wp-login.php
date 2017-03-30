@@ -259,7 +259,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		public function admin_notices() {
 			global $pagenow;
 
-			if ( ! is_network_admin() && $pagenow === 'options-permalink.php' && isset( $_GET['settings-updated'] ) ) {
+			if ( ! is_network_admin() && 'options-permalink.php' === $pagenow && isset( $_GET['settings-updated'] ) ) {
 				// Translators: %s stands for a link element.
 				echo '<div class="notice notice-success is-dismissible"><p>' . sprintf( __( 'Your login page is now here: %s. Bookmark this page!', 'rename-wp-login' ), '<strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>' ) . '</p></div>';
 			}
