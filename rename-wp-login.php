@@ -16,7 +16,16 @@
 if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 	class Rename_WP_Login {
+
+		private static $_instance = null;
 		private $wp_login_php;
+
+		public static function get_instance() {
+			if ( null === self::$_instance ) {
+				self::$_instance = new self();
+			}
+			return self::$_instance;
+		}
 
 		private function basename() {
 			return plugin_basename( __FILE__ );
@@ -75,7 +84,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			}
 		}
 
-		public function __construct() {
+		private function __construct() {
 			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
 			register_uninstall_hook( $this->basename(), array( 'Rename_WP_Login', 'uninstall' ) );
 
@@ -385,5 +394,5 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 	}
 
-	new Rename_WP_Login;
+	Rename_WP_Login::get_instance();
 }
