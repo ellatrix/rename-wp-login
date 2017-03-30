@@ -182,13 +182,13 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				'rename-wp-login-section'
 			);
 
-			if ( isset( $_POST['rwl_page'] ) && $pagenow === 'options-permalink.php' ) {
+			if ( isset( $_POST['rwl_page'] ) && 'options-permalink.php' === $pagenow ) {
 				if (
 					( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) ) &&
 					strpos( $rwl_page, 'wp-login' ) === false &&
 					! in_array( $rwl_page, $this->forbidden_slugs() )
 				) {
-					if ( is_multisite() && $rwl_page === get_site_option( 'rwl_page', 'login' ) ) {
+					if ( is_multisite() && get_site_option( 'rwl_page', 'login' ) === $rwl_page ) {
 						delete_option( 'rwl_page' );
 					} else {
 						update_option( 'rwl_page', $rwl_page );
@@ -305,7 +305,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
 
 			if (
-				$pagenow === 'wp-login.php' &&
+				'wp-login.php' === $pagenow &&
 				$request['path'] !== $this->user_trailingslashit( $request['path'] ) &&
 				get_option( 'permalink_structure' )
 			) {
@@ -333,7 +333,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				}
 
 				$this->wp_template_loader();
-			} elseif ( $pagenow === 'wp-login.php' ) {
+			} elseif ( 'wp-login.php' === $pagenow ) {
 				global $error, $interim_login, $action, $user_login;
 
 				@require_once ABSPATH . 'wp-login.php';
