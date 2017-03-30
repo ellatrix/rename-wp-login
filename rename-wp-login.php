@@ -276,7 +276,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				wp_die( __( 'This feature is not enabled.', 'rename-wp-login' ), '', array( 'response' => 403 ) );
 			}
 
-			$request = parse_url( $_SERVER['REQUEST_URI'] );
+			$request = wp_parse_url( $_SERVER['REQUEST_URI'] );
 
 			if ( (
 					strpos( $_SERVER['REQUEST_URI'], 'wp-login.php' ) !== false ||
@@ -304,7 +304,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				wp_die( __( 'You must log in to access the admin area.', 'rename-wp-login' ), '', array( 'response' => 403 ) );
 			}
 
-			$request = parse_url( $_SERVER['REQUEST_URI'] );
+			$request = wp_parse_url( $_SERVER['REQUEST_URI'] );
 
 			if (
 				'wp-login.php' === $pagenow &&
@@ -317,7 +317,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				if (
 					( $referer = wp_get_referer() ) &&
 					strpos( $referer, 'wp-activate.php' ) !== false &&
-					( $referer = parse_url( $referer ) ) &&
+					( $referer = wp_parse_url( $referer ) ) &&
 					! empty( $referer['query'] )
 				) {
 					parse_str( $referer['query'], $referer );
