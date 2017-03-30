@@ -94,6 +94,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			register_activation_hook( $this->basename(), array( $this, 'activate' ) );
 			register_uninstall_hook( $this->basename(), array( 'Rename_WP_Login', 'uninstall' ) );
 
+			add_action( 'init', array( $this, 'init' ) );
 			add_action( 'admin_init', array( $this, 'admin_init' ) );
 			add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 			add_action( 'network_admin_notices', array( $this, 'admin_notices' ) );
@@ -177,6 +178,10 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			) {
 				update_site_option( 'rwl_page', $rwl_page );
 			}
+		}
+
+		public function init() {
+			load_plugin_textdomain( 'rename-wp-login' );
 		}
 
 		public function admin_init() {
@@ -280,8 +285,6 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 		public function plugins_loaded() {
 			global $pagenow;
-
-			load_plugin_textdomain( 'rename-wp-login' );
 
 			if (
 				! is_multisite() && (
