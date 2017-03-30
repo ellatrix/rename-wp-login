@@ -63,17 +63,23 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			die;
 		}
 
-		private function new_login_slug() {
-			if (
-				( $slug = get_option( 'rwl_page' ) ) || (
-					is_multisite() &&
-					is_plugin_active_for_network( $this->basename() ) &&
-					( $slug = get_site_option( 'rwl_page', 'login' ) )
-				) ||
-				( $slug = 'login' )
-			) {
-				return $slug;
+		/**
+		 * Get the new login slug.
+		 * @return  string
+		 */
+		public function new_login_slug() {
+			$slug = get_option( 'rwl_page' );
+
+			// Check network.
+			if ( is_multisite() && is_plugin_active_for_network( $this->basename() ) ) {
+				$slug = get_site_option( 'rwl_page', 'login' );
 			}
+
+			// Fallback
+			if ( ! $slug ) {
+				$slug = 'login';
+			}
+			return $slug;
 		}
 
 		public function new_login_url( $scheme = null ) {
@@ -164,8 +170,8 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 
 		public function update_wpmu_options() {
-			if (
-				( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) ) &&
+			$rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] );
+			if ( $rwl_page &&
 				strpos( $rwl_page, 'wp-login' ) === false &&
 				! in_array( $rwl_page, $this->forbidden_slugs(), true )
 			) {
@@ -192,8 +198,9 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			);
 
 			if ( isset( $_POST['rwl_page'] ) && 'options-permalink.php' === $pagenow ) {
+				$rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] );
 				if (
-					( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) ) &&
+					$rwl_page &&
 					strpos( $rwl_page, 'wp-login' ) === false &&
 					! in_array( $rwl_page, $this->forbidden_slugs(), true )
 				) {
