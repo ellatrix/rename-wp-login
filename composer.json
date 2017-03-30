@@ -1,0 +1,19 @@
+{
+	"name": "iseulde/rename-wp-login",
+	"type": "wordpress-plugin",
+	"description": "Change wp-login.php to anything you want.",
+	"keywords": [],
+	"homepage": "https://github.com/iseulde/rename-wp-login",
+	"license": "GPL-2.0+",
+	"authors": [],
+	"require": {
+		"composer/installers": "1.2.*",
+		"php": ">=5.2.4"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "4.8.*",
+	},
+	"extra": {
+		"installer-name": "rename-wp-login"
+	}
+}
