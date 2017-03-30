@@ -216,6 +216,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				echo (
 					'<p>' .
 						sprintf(
+							// Translators: %s stands for a link element: "Network Settings".
 							__( 'To set a networkwide default, go to %s.', 'rename-wp-login' ),
 							'<a href="' . esc_url( network_admin_url( 'settings.php#rwl-page-input' ) ) . '">' .
 								__( 'Network Settings', 'rename-wp-login' ) .
@@ -238,6 +239,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			global $pagenow;
 
 			if ( ! is_network_admin() && $pagenow === 'options-permalink.php' && isset( $_GET['settings-updated'] ) ) {
+				// Translators: %s stands for a link element.
 				echo '<div class="notice notice-success is-dismissible"><p>' . sprintf( __( 'Your login page is now here: %s. Bookmark this page!', 'rename-wp-login' ), '<strong><a href="' . $this->new_login_url() . '">' . $this->new_login_url() . '</a></strong>' ) . '</p></div>';
 			}
 		}
