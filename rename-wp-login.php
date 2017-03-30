@@ -158,7 +158,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 			if (
 				( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) ) &&
 				strpos( $rwl_page, 'wp-login' ) === false &&
-				! in_array( $rwl_page, $this->forbidden_slugs() )
+				! in_array( $rwl_page, $this->forbidden_slugs(), true )
 			) {
 				update_site_option( 'rwl_page', $rwl_page );
 			}
@@ -186,7 +186,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				if (
 					( $rwl_page = sanitize_title_with_dashes( $_POST['rwl_page'] ) ) &&
 					strpos( $rwl_page, 'wp-login' ) === false &&
-					! in_array( $rwl_page, $this->forbidden_slugs() )
+					! in_array( $rwl_page, $this->forbidden_slugs(), true )
 				) {
 					if ( is_multisite() && get_site_option( 'rwl_page', 'login' ) === $rwl_page ) {
 						delete_option( 'rwl_page' );
