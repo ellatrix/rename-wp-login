@@ -1,0 +1,25 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - php
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+    config:
+      rulesets: "tests/phpmd.xml"
+  phpcodesniffer:
+    enabled: true
+    config:
+      standard: "Wordpress-Extra"
+ratings:
+  paths:
+  - "**.php"
+exclude_paths:
+- tests/*
+- bin/*
+# Local
+- vendor/*
