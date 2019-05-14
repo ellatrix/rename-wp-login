@@ -2,7 +2,7 @@
 
     Contributors:      maximejobin, iseulde
     Tags:              rename, login, wp-login, wp-login.php, custom login url
-    Requires at least: 4.4
+    Requires at least: 5.2
     Tested up to:      5.2
     Stable tag:        2.5.5
     License:           GPL-2.0+
