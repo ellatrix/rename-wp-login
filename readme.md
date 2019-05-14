@@ -4,7 +4,7 @@
     Tags:              rename, login, wp-login, wp-login.php, custom login url
     Requires at least: 5.2
     Tested up to:      5.2
-    Stable tag:        2.5.5
+    Stable tag:        2.6.0
     License:           GPL-2.0+
 
 Change wp-login.php to anything you want.
