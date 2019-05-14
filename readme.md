@@ -127,7 +127,7 @@ On a multisite install the `rwl_page` option will be in the sitemeta table, if t
 ### 1.6
 
 * Fixed the login link when `site_url()` ≠ `home_url()`.
-* Added a [mirror](https://github.com/iseulde/rename-wp-login) on GitHub.
+* Added a [mirror](https://github.com/ellatrix/rename-wp-login) on GitHub.
 
 ### 1.5
 
