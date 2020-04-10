@@ -305,7 +305,13 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 			$request = parse_url( $_SERVER['REQUEST_URI'] );
 
-			if (
+			if(
+				$pagenow === 'wp-login.php' &&
+				is_user_logged_in()
+			){
+				wp_safe_redirect( home_url() );
+				die;
+			} elseif (
 				$pagenow === 'wp-login.php' &&
 				$request['path'] !== $this->user_trailingslashit( $request['path'] ) &&
 				get_option( 'permalink_structure' )
