@@ -16,6 +16,7 @@
 if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 
 	class Rename_WP_Login {
+		const DEFAULT_SLUG = 'my-login';
 		private $wp_login_php;
 
 		private function basename() {
@@ -59,9 +60,9 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 				( $slug = get_option( 'rwl_page' ) ) || (
 					is_multisite() &&
 					is_plugin_active_for_network( $this->basename() ) &&
-					( $slug = get_site_option( 'rwl_page', 'login' ) )
+					( $slug = get_site_option( 'rwl_page', self::DEFAULT_SLUG ) )
 				) ||
-				( $slug = 'login' )
+				( $slug = self::DEFAULT_SLUG )
 			) {
 				return $slug;
 			}
@@ -147,7 +148,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 							__( 'Networkwide default', 'rename-wp-login' ) .
 						'</th>' .
 						'<td>' .
-							'<input id="rwl-page-input" type="text" name="rwl_page" value="' . get_site_option( 'rwl_page', 'login' )  . '">' .
+						'	<input id="rwl-page-input" type="text" name="rwl_page" value="' . get_site_option( 'rwl_page', self::DEFAULT_SLUG )  . '">' .
 						'</td>' .
 					'</tr>' .
 				'</table>'
@@ -188,7 +189,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 					strpos( $rwl_page, 'wp-login' ) === false &&
 					! in_array( $rwl_page, $this->forbidden_slugs() )
 				) {
-					if ( is_multisite() && $rwl_page === get_site_option( 'rwl_page', 'login' ) ) {
+					if ( is_multisite() && $rwl_page === get_site_option( 'rwl_page', self::DEFAULT_SLUG ) ) {
 						delete_option( 'rwl_page' );
 					} else {
 						update_option( 'rwl_page', $rwl_page );
@@ -374,7 +375,7 @@ if ( defined( 'ABSPATH' ) && ! class_exists( 'Rename_WP_Login' ) ) {
 		}
 
 		public function welcome_email( $value ) {
-			return str_replace( 'wp-login.php', trailingslashit( get_site_option( 'rwl_page', 'login' ) ), $value );
+			return str_replace( 'wp-login.php', trailingslashit( get_site_option( 'rwl_page', self::DEFAULT_SLUG ) ), $value );
 		}
 
 		public function forbidden_slugs() {
